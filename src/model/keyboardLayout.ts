@@ -1,0 +1,279 @@
+import type { KeyType } from "../components/Key.tsx";
+
+export type KeyboardLayout = {
+  left: KeyType[];
+  right: KeyType[];
+};
+
+
+export 
+ const defaultLayout: KeyboardLayout = {
+    left: [
+      {
+        action: "insert",
+        payload: "1",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "2",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "3",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "4",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "5",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "q",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "w",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "e",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "r",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "t",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "a",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "s",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "d",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "f",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "g",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "z",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "x",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "c",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "v",
+        width: 1,
+        height: 1,
+      },
+      {
+        label: "←",
+        action: "cursor",
+        payload: -1,
+        width: 2,
+        height: 1,
+      },
+      {
+        label: "Space",
+        action: "insert",
+        payload: " ",
+        width: 3,
+        height: 1,
+      },
+    ],
+    right: [
+      {
+        action: "insert",
+        payload: "6",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "7",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "8",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "9",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "0",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "y",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "u",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "i",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "o",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "p",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "h",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "j",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "k",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "l",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "b",
+        width: 1,
+        height: 1,
+      },
+      {
+          action: "blank",
+          payload: undefined,
+          width: 0,
+          height: 0
+      },
+      {
+        label: "፧",
+        action: "commandMode",
+        payload: "",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "n",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: "m",
+        width: 1,
+        height: 1,
+      },
+      {
+        action: "insert",
+        payload: ".",
+        width: 1,
+        height: 1,
+      },
+      {
+        label: "backspace",
+        action: "remove",
+        payload: 1,
+        width: 3,
+        height: 1,
+      },
+      {
+        label: "→",
+        action: "cursor",
+        payload: 1,
+        width: 2,
+        height: 1,
+      },
+    ],
+  };
+  
