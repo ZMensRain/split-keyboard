@@ -1,64 +1,44 @@
-import { useState } from "react";
 import { defaultLayout } from "./model/keyboardLayout.ts";
 import KeyboardSection from "./components/KeyboardSection.tsx";
 import Output from "./components/Output.tsx";
 import type { KeyPressEvent } from "./components/Key.tsx";
+import useInput, { type useInputReturnType } from "./helpers/hooks/useInput.ts";
+import { useState } from "react";
 
 function App() {
-  const [text, setText] = useState("");
-  const [cursor, setCursor] = useState(0);
-  const [commandCursor] = useState(0);
-
-  function moveCursor(amount: number, ignoreUpperBound = false) {
-    setCursor((prev) => {
-      if (prev + amount < 0) return 0;
-      if (ignoreUpperBound) return prev + amount;
-      if (prev + amount > text.length) return text.length;
-      return prev + amount;
-    });
-  }
+  const inputs = {
+    main: useInput({ defaultBlink: true }),
+    commandMode: useInput(),
+  };
+  const [activeInput, setActiveInput] = useState("main");
 
   function handleKeyClick({ action, payload }: KeyPressEvent) {
     // prevents invalid keys
     if (action == null || payload == null) return;
-    if (action.toLowerCase() == "insert") {
-      setText(
-        (prev) => prev.substring(0, cursor) + payload + prev.substring(cursor)
-      );
-      moveCursor(1, true);
-    }
-    if (action.toLowerCase() == "remove" && typeof payload == "number") {
-      setText(
-        (prev) => prev.substring(0, cursor - payload) + prev.substring(cursor)
-      );
-      moveCursor(-1);
-    }
-    if (action.toLowerCase() == "cursor" && typeof payload == "number")
-      moveCursor(payload);
-    if (action.toLowerCase() == "save") {
-      handleSave();
-      return;
+
+    action = action.toLowerCase();
+
+    const activeInputObj: useInputReturnType | undefined =
+      inputs[activeInput as keyof typeof inputs];
+
+    if (action == "insert" && typeof payload == "string") {
+      activeInputObj?.insert(payload);
+    } else if (action == "remove" && typeof payload == "number") {
+      activeInputObj?.remove(payload);
+    } else if (action == "cursor" && typeof payload == "number") {
+      activeInputObj?.moveCursor(payload);
+    } else if (action == "save") {
+      activeInputObj?.download("default.txt");
+    } else if (
+      action == "switchInput".toLowerCase() &&
+      typeof payload == "string"
+    ) {
+      inputs[activeInput as keyof typeof inputs].rawAccess.setBlink(false);
+      inputs[payload as keyof typeof inputs].rawAccess.setBlink(true);
+      setActiveInput(payload);
     }
   }
 
-  function download(file: string, text: string) {
-    //creating an invisible element
-
-    const element = document.createElement("a");
-    element.setAttribute(
-      "href",
-      "data:text/plain;charset=utf-8, " + encodeURIComponent(text)
-    );
-    element.setAttribute("download", file);
-    document.body.appendChild(element);
-    element.click();
-
-    document.body.removeChild(element);
-  }
-
-  function handleSave() {
-    download("default.txt", text);
-  }
   return (
     <main>
       <KeyboardSection
@@ -67,7 +47,11 @@ function App() {
         onKeyClick={handleKeyClick}
       />
       <section id="content">
-        <Output cursor={cursor} text={text} />
+        <Output
+          cursor={inputs.main.cursor}
+          text={inputs.main.text}
+          blink={inputs.main.blink}
+        />
       </section>
       <KeyboardSection
         name="right"
@@ -75,7 +59,11 @@ function App() {
         onKeyClick={handleKeyClick}
       />
       <section id="status">
-        <Output cursor={commandCursor} text={""} blink={false} />
+        <Output
+          cursor={inputs.commandMode.cursor}
+          text={inputs.commandMode.text}
+          blink={inputs.commandMode.blink}
+        />
       </section>
     </main>
   );
