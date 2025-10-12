@@ -135,6 +135,19 @@ export const defaultLayout: KeyboardLayout = {
       width: 3,
       height: 1,
     },
+
+    {
+      action: "blank",
+      payload: undefined,
+      width: 0,
+      height: 0,
+    },
+    {
+      action: "blank",
+      payload: undefined,
+      width: 0,
+      height: 0,
+    },
   ],
   right: [
     {
@@ -270,6 +283,25 @@ export const defaultLayout: KeyboardLayout = {
       action: "cursor",
       payload: 1,
       width: 2,
+      height: 1,
+    },
+    {
+      action: "blank",
+      payload: undefined,
+      width: 0,
+      height: 0,
+    },
+    {
+      action: "blank",
+      payload: undefined,
+      width: 0,
+      height: 0,
+    },
+    {
+      label: "Enter",
+      action: "enter",
+      payload: 1,
+      width: 3,
       height: 1,
     },
   ],
