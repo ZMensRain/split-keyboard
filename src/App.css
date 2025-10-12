@@ -49,10 +49,12 @@ main {
   grid-column: span 1;
   grid-row: span 1;
 }
-#status {
+#status p {
   background-color: black;
   grid-column: span 3;
   padding: 5px;
+  font-family: monospace;
+  height: 1em;
 }
 #content {
   padding: 5px;
@@ -110,18 +112,24 @@ main {
   user-select: none;
 }
 
+p {
+  min-height: 1em;
+  margin: 0px;
+  padding: 0px;
+}
+
 @media only screen and (orientation: portrait) {
   #root {
-      transform: rotate(-90deg) translate(-100vh, 0px);
-      transform-origin: left top; /* Adjusts the rotation point */
-      width: 100vh; /* Sets the width to the height of the viewport */
-      height: 100vw; /* Sets the height to the width of the viewport */
-      overflow: hidden;
-      /* Prevents overflow */
+    transform: rotate(-90deg) translate(-100vh, 0px);
+    transform-origin: left top; /* Adjusts the rotation point */
+    width: 100vh; /* Sets the width to the height of the viewport */
+    height: 100vw; /* Sets the height to the width of the viewport */
+    overflow: hidden;
+    /* Prevents overflow */
   }
   #content {
-      width: 100%;
-      padding: 5px;
-      max-width: calc(100vh / 3);
+    width: 100%;
+    padding: 5px;
+    max-width: calc(100vh / 3);
   }
 }

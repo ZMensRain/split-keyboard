@@ -4,9 +4,15 @@ type props = {
   cursor: number;
   text: string;
   blink?: boolean;
+  prefix?: string;
 };
 
-export default function Output({ cursor, text, blink = true }: props) {
+export default function Output({
+  cursor,
+  text,
+  blink = true,
+  prefix = "",
+}: props) {
   const [cursorIsVisible, setCursorIsVisible] = useState(false);
   useEffect(() => {
     let id: number;
@@ -17,10 +23,14 @@ export default function Output({ cursor, text, blink = true }: props) {
         });
       }, 700);
     }
-    return () => clearInterval(id);
+    return () => {
+      setCursorIsVisible(false);
+      clearInterval(id);
+    };
   }, [blink]);
   return (
     <p>
+      <span>{prefix}</span>
       <span>{text.substring(0, cursor)}</span>
       <b>{cursorIsVisible ? "|" : ""}</b>
       <span>{text.substring(cursor)}</span>

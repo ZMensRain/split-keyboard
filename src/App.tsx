@@ -60,6 +60,7 @@ function App() {
       />
       <section id="status">
         <Output
+          prefix=": "
           cursor={inputs.commandMode.cursor}
           text={inputs.commandMode.text}
           blink={inputs.commandMode.blink}
