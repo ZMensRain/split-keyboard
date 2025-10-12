@@ -118,6 +118,11 @@ p {
   padding: 0px;
 }
 
+div.key {
+  background-color: transparent;
+  padding: 0px;
+}
+
 @media only screen and (orientation: portrait) {
   #root {
     transform: rotate(-90deg) translate(-100vh, 0px);

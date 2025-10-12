@@ -34,7 +34,7 @@ export default function Key(props: props) {
 
   const visual = props.label ?? props.payload;
   if (props.action == "blank") {
-    return <div></div>;
+    return <div className="span-x-1 unselectable key"></div>;
   }
   return (
     <button
