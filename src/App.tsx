@@ -1,14 +1,32 @@
-import { defaultLayout } from "./model/keyboardLayout.ts";
 import KeyboardSection from "./components/KeyboardSection.tsx";
 import Output from "./components/Output.tsx";
 import type { KeyPressEvent } from "./components/Key.tsx";
 import useInputs from "./helpers/hooks/useInputs.ts";
+import { getLayout } from "./helpers/keyboardLayouts.ts";
+import { useState } from "react";
 
 function App() {
   const inputs = useInputs({
     main: {},
     commandMode: {},
   });
+  const [keyboardLayout, setKeyboardLayout] = useState(getLayout("default"));
+
+  const commands = [
+    {
+      names: ["w", "save", "write"],
+      handler: (userInputs: typeof inputs, commandParts: string[]) => {
+        if (commandParts.length < 2) return;
+        userInputs.getInput("main")?.download(commandParts[1]);
+      },
+    },
+    {
+      names: ["exit", "q", "quit"],
+      handler: (_userInputs: typeof inputs, _commandParts: string[]) => {
+        inputs.setActive("main");
+      },
+    },
+  ];
 
   function handleKeyClick({ action, payload }: KeyPressEvent) {
     // prevents invalid keys
@@ -40,22 +58,6 @@ function App() {
     }
   }
 
-  const commands = [
-    {
-      names: ["w", "save", "write"],
-      handler: (userInputs: typeof inputs, commandParts: string[]) => {
-        if (commandParts.length < 2) return;
-        userInputs.getInput("main")?.download(commandParts[1]);
-      },
-    },
-    {
-      names: ["exit", "q", "quit"],
-      handler: (_userInputs: typeof inputs, _commandParts: string[]) => {
-        inputs.setActive("main");
-      },
-    },
-  ];
-
   function handleCommand(command: string) {
     let parts = command.split(" ");
 
@@ -70,7 +72,7 @@ function App() {
     <main>
       <KeyboardSection
         name="left"
-        keys={defaultLayout.left}
+        keys={keyboardLayout.left}
         onKeyClick={handleKeyClick}
       />
       <section id="content">
@@ -82,7 +84,7 @@ function App() {
       </section>
       <KeyboardSection
         name="right"
-        keys={defaultLayout.right}
+        keys={keyboardLayout.right}
         onKeyClick={handleKeyClick}
       />
       <section id="status">
