@@ -1,69 +1,39 @@
-# React + TypeScript + Vite
+# Split Keyboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A PWA for note taking that makes use of a custom onscreen keyboard so that they keyboard can be split in half. This PWA is designed for landscape mobile only in fact I wrote css that prevents rotation.
 
-Currently, two official plugins are available:
+## Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- support for multiple input buffers
+- customizable keyboards
+- vim like commands
 
-## Expanding the ESLint configuration
+## My Role
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Developer and Designer
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Technologies Used
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- React
+- TypeScript
+- Vite
+- vite-plugin-pwa
+- Tailwind
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Demo
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Use your phone https://split-keyboard.zian.co.za
+- check the [source code]()
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Purpose
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+I built this the project because I was curious as to whether a split digital keyboard would be useful. I first looked to see if there was a way that I could do it without coding, saw it was possible but not on my iphone so I decided to create a UI mock and then I ended up creating the thing.
+
+## My Brag of the Project
+
+I wanted to make it customizable as much as possible so most UI is generated based on data allowing people to customize their keyboard to their heart's content be that a key that types the phrase: "I love Linux" or a key that deletes 200 characters.
+
+## Lessons Learned
+
+- Don't ever start with javascript again
+- I could have fun creating something with my sibling, frantically trying to fix the bugs they kept finding in real time using a live server with hot reload.
