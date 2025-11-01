@@ -33,14 +33,12 @@ export default function Key(props: props) {
   //   }
 
   const visual = props.label ?? props.payload;
+  const className = `key key-${visual} span-x-${props.width} span-y-${props.height} unselectable`;
   if (props.action == "blank") {
-    return <div className="span-x-1 unselectable key"></div>;
+    return <div className={className}></div>;
   }
   return (
-    <button
-      className={"key " + `key-${visual} span-x-${props.width} unselectable`}
-      onTouchStart={handleClick}
-    >
+    <button className={className} onTouchStart={handleClick}>
       {String(visual)}
     </button>
   );

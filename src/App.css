@@ -11,6 +11,10 @@ body,
   color: white;
   overflow: hidden;
   position: fixed;
+  --background: black;
+  --surface: #2b2b2b;
+  --foreground: white;
+  --key: #6a6a6a;
 }
 
 main {
@@ -25,44 +29,28 @@ main {
   gap: 0px;
 }
 
+/* Grid items */
+
+#status {
+  grid-column: span 3 / span 3;
+}
+
 #left,
 #right {
   padding: 5px;
   min-width: 100px;
   min-height: 100px;
-  background-color: #2b2b2b;
+  background-color: var(--surface);
   display: grid;
   grid-template-columns: auto auto auto auto auto;
   grid-auto-flow: dense;
-  flex-direction: row;
-  flex-wrap: wrap;
   justify-content: center;
   align-content: center;
   gap: 5px;
 }
 
-#left {
-  grid-column: span 1;
-  grid-row: span 1;
-}
-#right {
-  grid-column: span 1;
-  grid-row: span 1;
-}
-#status p {
-  background-color: black;
-  grid-column: span 3;
-  padding: 5px;
-  font-family: monospace;
-  height: 1em;
-}
 #content {
   padding: 5px;
-  max-width: calc(100vw / 3);
-  min-width: calc(100vw / 3);
-  display: flex;
-  grid-column: span 1;
-  grid-row: span 1;
 }
 
 #content p {
@@ -73,9 +61,14 @@ main {
   white-space: pre-wrap;
 }
 
+#status p {
+  padding: 5px;
+  font-family: monospace;
+}
+
 .key {
-  color: white;
-  background-color: #6a6a6a;
+  color: var(--foreground);
+  background-color: var(--key);
   padding: 0.8rem;
   border: none;
   border-radius: 10px;
@@ -103,6 +96,22 @@ main {
   grid-column: span 5;
 }
 
+.span-y-1 {
+  grid-row: span 1;
+}
+.span-y-2 {
+  grid-row: span 2;
+}
+.span-y-3 {
+  grid-row: span 3;
+}
+.span-y-4 {
+  grid-row: span 4;
+}
+.span-y-5 {
+  grid-row: span 5;
+}
+
 .unselectable {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -114,15 +123,15 @@ main {
 
 p {
   min-height: 1em;
-  margin: 0px;
-  padding: 0px;
 }
 
+/* Styles blank keys */
 div.key {
   background-color: transparent;
   padding: 0px;
 }
 
+/* handles keeping the content always landscape */
 @media only screen and (orientation: portrait) {
   #root {
     transform: rotate(-90deg) translate(-100vh, 0px);

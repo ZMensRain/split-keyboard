@@ -139,14 +139,14 @@ export const defaultLayout: KeyboardLayout = {
     {
       action: "blank",
       payload: undefined,
-      width: 0,
-      height: 0,
+      width: 1,
+      height: 1,
     },
     {
       action: "blank",
       payload: undefined,
-      width: 0,
-      height: 0,
+      width: 1,
+      height: 1,
     },
   ],
   right: [
