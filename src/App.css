@@ -131,6 +131,48 @@ div.key {
   padding: 0px;
 }
 
+div.settings {
+  padding: 1rem;
+  overflow-x: scroll;
+}
+
+input,
+textarea {
+  background-color: var(--background);
+  color: var(--foreground);
+  border-style: solid;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.end {
+  justify-content: flex-end;
+}
+
+.button {
+  background-color: var(--key);
+  color: var(--foreground);
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.layoutNameInput {
+  width: 100%;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+.layoutInput {
+  width: 100%;
+  min-height: 200px;
+}
 /* handles keeping the content always landscape */
 @media only screen and (orientation: portrait) {
   #root {

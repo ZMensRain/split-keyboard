@@ -4,12 +4,14 @@ import type { KeyPressEvent } from "./components/Key.tsx";
 import useInputs from "./helpers/hooks/useInputs.ts";
 import { getLayout } from "./helpers/keyboardLayouts.ts";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 function App() {
   const inputs = useInputs({
     main: {},
     commandMode: {},
   });
+  const navigate = useNavigate();
   const [keyboardLayout, setKeyboardLayout] = useState(getLayout("default"));
 
   const commands = [
@@ -24,6 +26,12 @@ function App() {
       names: ["exit", "q", "quit"],
       handler: (_userInputs: typeof inputs, _commandParts: string[]) => {
         inputs.setActive("main");
+      },
+    },
+    {
+      names: ["settings"],
+      handler: (_userInputs: typeof inputs, _commandParts: string[]) => {
+        navigate("/settings");
       },
     },
   ];

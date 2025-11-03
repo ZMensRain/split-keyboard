@@ -28,3 +28,17 @@ export function validateLayout(layout: KeyboardLayout): boolean {
     return false;
   return true;
 }
+
+export function getAllLayoutNames(): string[] {
+  let layoutNames: string[] = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    console.log(localStorage.key(i));
+    const key = localStorage.key(i);
+    if (key == null) continue;
+    if (key.startsWith(prefix)) layoutNames.push(key.replace(prefix, ""));
+  }
+  if (!layoutNames.includes("default")) {
+    layoutNames = ["default"].concat(layoutNames);
+  }
+  return layoutNames;
+}
