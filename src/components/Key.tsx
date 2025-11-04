@@ -54,6 +54,7 @@ const Key = memo((props: props) => {
       className={className}
       onPointerDown={handleClick}
       onPointerUp={stop}
+      onPointerLeave={stop}
     >
       {String(visual)}
     </button>
