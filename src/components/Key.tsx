@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 
 export type KeyType = {
   label?: string;
@@ -17,20 +17,32 @@ type props = KeyType & {
   onClick: (event: KeyPressEvent) => void;
 };
 
-export default function Key(props: props) {
-  const ref = useRef<number | null>(null);
+const Key = memo((props: props) => {
+  const intervalRef = useRef<number | undefined>(undefined);
+  const timeoutRef = useRef<number | undefined>(undefined);
+
+  const triggerAction = () =>
+    props.onClick({ action: props.action, payload: props.payload });
+
+  useEffect(() => {
+    return () => {
+      clearInterval(intervalRef.current);
+      clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   function handleClick() {
-    if (ref.current != null) {
-      clearInterval(ref.current);
-    }
-    props.onClick({ action: props.action, payload: props.payload });
+    timeoutRef.current = setTimeout(
+      () => (intervalRef.current = setInterval(() => triggerAction(), 200)),
+      700
+    );
+    triggerAction();
   }
 
-  //   function stop() {
-  //     clearInterval(ref.current);
-  //     console.log("wow", ref.current);
-  //   }
+  function stop() {
+    clearTimeout(timeoutRef.current);
+    clearInterval(intervalRef.current);
+  }
 
   const visual = props.label ?? props.payload;
   const className = `key key-${visual} span-x-${props.width} span-y-${props.height} unselectable`;
@@ -38,8 +50,14 @@ export default function Key(props: props) {
     return <div className={className}></div>;
   }
   return (
-    <button className={className} onTouchStart={handleClick}>
+    <button
+      className={className}
+      onPointerDown={handleClick}
+      onPointerUp={stop}
+    >
       {String(visual)}
     </button>
   );
-}
+});
+
+export default Key;

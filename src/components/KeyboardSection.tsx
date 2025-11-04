@@ -12,8 +12,12 @@ export default function KeyboardSection(props: props) {
 
   return (
     <section id={props.name}>
-      {keys.map((keyboardKey) => (
-        <Key {...keyboardKey} onClick={props.onKeyClick} />
+      {keys.map((keyboardKey, index) => (
+        <Key
+          {...keyboardKey}
+          onClick={props.onKeyClick}
+          key={String(keyboardKey.payload) + index}
+        />
       ))}
     </section>
   );
