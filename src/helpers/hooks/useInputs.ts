@@ -14,8 +14,8 @@ export interface input {
   moveCursor: (amount: number) => void;
   download: (file: string) => void;
   rawAccess: {
-    setText: (value: string) => void;
-    setCursor: (value: number) => void;
+    setText: (value: string | ((p: string) => string)) => void;
+    setCursor: (value: number | ((p: number) => number)) => void;
   };
 }
 
@@ -59,11 +59,21 @@ export default function useInputs(
     },
   ];
 
-  function setText(name: string, text: string) {
-    setTexts((p) => ({ ...p, [name]: text }));
+  function setText(name: string, value: string | ((p: string) => string)) {
+    setTexts((p) => {
+      let newValue = value;
+      if (typeof newValue == "function") newValue = newValue(p[name]);
+
+      return { ...p, [name]: newValue };
+    });
   }
-  function setCursor(name: string, cursor: number) {
-    setCursors((p) => ({ ...p, [name]: Math.floor(cursor) }));
+  function setCursor(name: string, value: number | ((p: number) => number)) {
+    setCursors((p) => {
+      let newValue = value;
+      if (typeof newValue == "function") newValue = newValue(p[name]);
+
+      return { ...p, [name]: Math.floor(newValue) };
+    });
   }
 
   function moveCursor(
