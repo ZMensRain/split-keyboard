@@ -1,3 +1,4 @@
+import { memo } from "react";
 import type { KeyPressEvent, KeyType } from "./Key.tsx";
 import Key from "./Key.tsx";
 
@@ -7,7 +8,7 @@ type props = {
   onKeyClick: (event: KeyPressEvent) => void;
 };
 
-export default function KeyboardSection(props: props) {
+const KeyboardSection = memo(function KeyboardSection(props: props) {
   const keys = props.keys;
 
   return (
@@ -21,4 +22,5 @@ export default function KeyboardSection(props: props) {
       ))}
     </section>
   );
-}
+});
+export default KeyboardSection;
