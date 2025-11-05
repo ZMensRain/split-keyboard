@@ -140,7 +140,22 @@ export default function useInputs(
     document.body.removeChild(element);
   }
 
-  function removeInput(name: string) {}
+  function removeInput(name: string) {
+    // prevent broken state where the user is trying to type but the active input does not exist
+    if (active == name) setActive("commandMode");
+    // remove it from the cursors
+    setCursors((c) => {
+      const newCursors = { ...c };
+      delete newCursors[name];
+      return newCursors;
+    });
+    // remove it from the texts
+    setTexts((t) => {
+      const newTexts = { ...t };
+      delete newTexts[name];
+      return newTexts;
+    });
+  }
 
   function getInput(name: string): input | undefined {
     if (cursors[name] === undefined || texts[name] === undefined)
@@ -161,7 +176,7 @@ export default function useInputs(
     };
   }
 
-  function getActive(): input | undefined {
+  function getActive() {
     return getInput(active);
   }
 
