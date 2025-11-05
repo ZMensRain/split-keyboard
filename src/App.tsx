@@ -16,6 +16,8 @@ function App() {
   });
   const navigate = useNavigate();
   const [keyboardLayout, setKeyboardLayout] = useState(getLayout("default"));
+  const mainInput = inputs.getInput("main");
+  const commandModeInput = inputs.getInput("commandMode");
 
   const handleCommand = (
     command: string,
@@ -27,9 +29,6 @@ function App() {
     );
     c?.handler(inputs, parts, navigate);
   };
-
-  const mainInput = inputs.getInput("main");
-  const commandModeInput = inputs.getInput("commandMode");
 
   const handleKeyClick = useCallback(
     ({ action, payload }: KeyPressEvent) => {

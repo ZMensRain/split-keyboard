@@ -7,33 +7,31 @@ type props = {
   prefix?: string;
 };
 
-export default function Output({
-  cursor,
-  text,
-  blink = true,
-  prefix = "",
-}: props) {
+const BLINK_RATE = 700;
+
+export default function Output(props: props) {
   const [cursorIsVisible, setCursorIsVisible] = useState(false);
   useEffect(() => {
     let id: number;
-    if (blink) {
-      id = setInterval(() => {
-        setCursorIsVisible((pre) => {
-          return !pre;
-        });
-      }, 700);
-    }
+    // creates an interval for blinking if blink is true
+    if (props.blink) id = setInterval(handleBlink, BLINK_RATE);
+
     return () => {
       setCursorIsVisible(false);
       clearInterval(id);
     };
-  }, [blink]);
+  }, [props.blink]);
+
+  function handleBlink() {
+    setCursorIsVisible((pre) => !pre);
+  }
+
   return (
     <p>
-      <span>{prefix}</span>
-      <span>{text.substring(0, cursor)}</span>
+      <span>{props.prefix}</span>
+      <span>{props.text.substring(0, props.cursor)}</span>
       <b>{cursorIsVisible ? "|" : ""}</b>
-      <span>{text.substring(cursor)}</span>
+      <span>{props.text.substring(props.cursor)}</span>
     </p>
   );
 }

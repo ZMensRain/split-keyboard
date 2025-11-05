@@ -2,12 +2,16 @@ import { defaultLayout, type KeyboardLayout } from "../model/keyboardLayout";
 const prefix = "keyboardLayout-";
 
 export function getLayout(layout: string): KeyboardLayout {
+  // fetch layout from localStorage and return default layout if it does not exist
   const fetchedLayout = localStorage.getItem(prefix + layout);
   if (fetchedLayout == null) return defaultLayout;
+
   const parsedLayout: KeyboardLayout = JSON.parse(fetchedLayout);
-  if (parsedLayout == null) return defaultLayout;
-  if (parsedLayout.left == null || parsedLayout.right == null)
+
+  //validate keyboard layout
+  if (parsedLayout == null || !validateLayout(parsedLayout))
     return defaultLayout;
+
   return parsedLayout;
 }
 
@@ -18,27 +22,28 @@ export function setLayout(layoutName: string, layout: KeyboardLayout) {
 
 export function validateLayout(layout: KeyboardLayout): boolean {
   if (layout.left == null || layout.right == null) return false;
-  //check if there is at least one switchInput for command mode
+
+  // check if there is at least one switchInput for command mode.
+  // this is done to prevent users from soft locking themselves with
+  // a keyboard layout that cannot be used to navigate to settings
   const allKeys = layout.left.concat(layout.right);
-  if (
-    allKeys.find(
-      (v) => v.action == "switchInput" && v.payload == "commandMode"
-    ) == undefined
-  )
-    return false;
+  const switchKey = allKeys.find(
+    (k) => k.action == "switchInput" && k.payload == "commandMode"
+  );
+  if (switchKey == undefined) return false;
   return true;
 }
 
 export function getAllLayoutNames(): string[] {
   let layoutNames: string[] = [];
   for (let i = 0; i < localStorage.length; i++) {
-    console.log(localStorage.key(i));
     const key = localStorage.key(i);
     if (key == null) continue;
     if (key.startsWith(prefix)) layoutNames.push(key.replace(prefix, ""));
   }
-  if (!layoutNames.includes("default")) {
-    layoutNames = ["default"].concat(layoutNames);
-  }
+  // makes sure that there is always at least one keyboard layout
+  if (!layoutNames.includes("default"))
+    layoutNames = ["default", ...layoutNames];
+
   return layoutNames;
 }
