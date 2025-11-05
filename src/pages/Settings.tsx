@@ -1,13 +1,22 @@
 import { useState } from "react";
-import { getAllLayoutNames, getLayout } from "../helpers/keyboardLayouts";
+import {
+  getAllLayoutNames,
+  getLayout,
+  setLayout,
+} from "../helpers/keyboardLayouts";
+import { useNavigate } from "react-router";
 
 export default function Settings() {
   const [selectedLayout, setSelectedLayout] = useState("default");
   const layouts = getAllLayoutNames();
-  const layout = JSON.stringify(getLayout(selectedLayout));
+  const [layoutData, setLayoutData] = useState(
+    JSON.stringify(getLayout(selectedLayout))
+  );
+  const navigate = useNavigate();
 
   function handleSave() {
-    console.log("saving");
+    setLayout(selectedLayout, JSON.parse(layoutData));
+    navigate("/");
   }
 
   return (
@@ -22,13 +31,25 @@ export default function Settings() {
         className="layoutNameInput"
         placeholder="Default"
         defaultValue={selectedLayout}
+        onBlur={(e) => {
+          setSelectedLayout(e.target.value);
+          setLayoutData(JSON.stringify(getLayout(e.target.value)));
+        }}
       />
       <datalist id="layouts">
         {layouts.map((v) => (
           <option value={v}>{v}</option>
         ))}
       </datalist>
-      <textarea className="layoutInput">{layout}</textarea>
+
+      <label htmlFor="layout-data">Layout Data</label>
+      <textarea
+        className="layoutInput"
+        id="layout-data"
+        onChange={(e) => setLayoutData(e.currentTarget.value)}
+      >
+        {layoutData}
+      </textarea>
       <div className="row end">
         <button className="button" onClick={handleSave}>
           Save
