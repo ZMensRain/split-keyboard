@@ -19,12 +19,15 @@ export interface input {
   };
 }
 
+type Cursors = { [key: string]: number };
+type Texts = { [key: string]: string };
+
 export default function useInputs(
   initial: { [key: string]: inputInitial },
   initialActive: string = "main"
 ) {
-  let initialCursors: { [key: string]: number } = {};
-  let initialTexts: { [key: string]: string } = {};
+  let initialCursors: Cursors = {};
+  let initialTexts: Texts = {};
 
   for (const key in initial) {
     if (Object.prototype.hasOwnProperty.call(initial, key)) {
@@ -35,8 +38,26 @@ export default function useInputs(
   }
 
   const [active, setActive] = useState(initialActive);
-  const [cursors, setCursors] = useState(initialCursors);
-  const [texts, setTexts] = useState(initialTexts);
+
+  const [inputs, setInputs] = useState({
+    cursors: initialCursors,
+    texts: initialTexts,
+  });
+
+  const [cursors, setCursors] = [
+    inputs.cursors,
+    (func: (cursors: Cursors, texts: Texts) => Cursors) => {
+      setInputs((p) => ({ ...p, cursors: func(p.cursors, p.texts) }));
+    },
+  ];
+  const [texts, setTexts] = [
+    inputs.texts,
+    (func: (texts: Texts, cursors: Cursors) => Texts) => {
+      setInputs((p) => {
+        return { ...p, texts: func(p.texts, p.cursors) };
+      });
+    },
+  ];
 
   function setText(name: string, text: string) {
     setTexts((p) => ({ ...p, [name]: text }));
@@ -50,22 +71,23 @@ export default function useInputs(
     amount: number,
     respectBounds: boolean = true
   ) {
-    setCursors((p) => {
+    setCursors((p, t) => {
       if (p[name] === undefined) return { ...p };
       if (respectBounds) {
         return {
           ...p,
-          [name]: Math.max(0, Math.min(texts[name].length, p[name] + amount)),
+          [name]: Math.max(0, Math.min(t[name].length, p[name] + amount)),
         };
       }
+
       return { ...p, [name]: p[name] + Math.floor(amount) };
     });
   }
 
   function insert(name: string, text: string) {
-    setTexts((p) => {
+    setTexts((p, c) => {
       if (p[name] === undefined) return { ...p };
-      const cursor = cursors[name];
+      const cursor = c[name];
       const value = p[name];
       let left = value.substring(0, cursor);
       let right = value.substring(cursor);
@@ -75,14 +97,15 @@ export default function useInputs(
   }
 
   function remove(name: string, amount: number) {
-    setTexts((p) => {
+    setTexts((p, c) => {
       const value = p[name];
       if (value === undefined) return { ...p };
 
-      const cursor = cursors[name];
+      const cursor = c[name];
 
       const newValue =
-        value.substring(0, cursor - amount - 1) + value.substring(cursor);
+        value.substring(0, cursor - amount) + value.substring(cursor);
+
       return { ...p, [name]: newValue };
     });
     moveCursor(name, -amount);
