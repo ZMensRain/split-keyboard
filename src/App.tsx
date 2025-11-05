@@ -88,6 +88,9 @@ function App() {
       }
       inputs.getActive()?.insert("\n");
     },
+    switchLayout: (_, payload) => {
+      if (typeof payload == "string") setKeyboardLayout(getLayout(payload));
+    },
   };
 
   const mainInput = inputs.getInput("main");
