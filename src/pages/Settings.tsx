@@ -38,7 +38,9 @@ export default function Settings() {
       />
       <datalist id="layouts">
         {layouts.map((v) => (
-          <option value={v}>{v}</option>
+          <option value={v} key={v}>
+            {v}
+          </option>
         ))}
       </datalist>
 
@@ -47,9 +49,8 @@ export default function Settings() {
         className="layoutInput"
         id="layout-data"
         onChange={(e) => setLayoutData(e.currentTarget.value)}
-      >
-        {layoutData}
-      </textarea>
+        value={layoutData}
+      ></textarea>
       <div className="row end">
         <button className="button" onClick={handleSave}>
           Save
