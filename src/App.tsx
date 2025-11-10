@@ -26,27 +26,29 @@ function App() {
   );
 
   return (
-    <main>
-      <KeyboardSection
-        name="left"
-        keys={keyboardLayout.left}
-        onKeyClick={handleKeyClick}
-      />
-      <section id="content">
-        <Output name="main" />
-      </section>
-      <KeyboardSection
-        name="right"
-        keys={keyboardLayout.right}
-        onKeyClick={handleKeyClick}
-      />
-      <section id="status">
-        <div>
-          <Output prefix=": " name="commandMode" />
-        </div>
-      </section>
-      <SystemKeyboard onClick={handleKeyClick}></SystemKeyboard>
-    </main>
+    <div className="landscape-always">
+      <main>
+        <KeyboardSection
+          name="left"
+          keys={keyboardLayout.left}
+          onKeyClick={handleKeyClick}
+        />
+        <section id="content">
+          <Output name="main" />
+        </section>
+        <KeyboardSection
+          name="right"
+          keys={keyboardLayout.right}
+          onKeyClick={handleKeyClick}
+        />
+        <section id="status">
+          <div>
+            <Output prefix=": " name="commandMode" />
+          </div>
+        </section>
+        <SystemKeyboard onClick={handleKeyClick}></SystemKeyboard>
+      </main>
+    </div>
   );
 }
 

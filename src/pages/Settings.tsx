@@ -26,35 +26,38 @@ export default function Settings() {
   return (
     <div className="settings">
       <h2>Layouts</h2>
-      <label htmlFor="layout">Layout Name</label>
-      <input
-        list="layouts"
-        name="layout"
-        id="layout"
-        onChange={(e) => setSelectedLayout(e.target.value)}
-        className="layoutNameInput"
-        placeholder="Default"
-        defaultValue={selectedLayout}
-        onBlur={(e) => {
-          setSelectedLayout(e.target.value);
-          setLayoutData(JSON.stringify(getLayout(e.target.value)));
-        }}
-      />
-      <datalist id="layouts">
-        {layouts.map((v) => (
-          <option value={v} key={v}>
-            {v}
-          </option>
-        ))}
-      </datalist>
-
-      <label htmlFor="layout-data">Layout Data</label>
-      <textarea
-        className="layoutInput"
-        id="layout-data"
-        onChange={(e) => setLayoutData(e.currentTarget.value)}
-        value={layoutData}
-      ></textarea>
+      <div className="input-group">
+        <label htmlFor="layout">Layout Name</label>
+        <input
+          list="layouts"
+          name="layout"
+          id="layout"
+          onChange={(e) => setSelectedLayout(e.target.value)}
+          className="layoutNameInput"
+          placeholder="Default"
+          defaultValue={selectedLayout}
+          onBlur={(e) => {
+            setSelectedLayout(e.target.value);
+            setLayoutData(JSON.stringify(getLayout(e.target.value)));
+          }}
+        />
+        <datalist id="layouts">
+          {layouts.map((v) => (
+            <option value={v} key={v}>
+              {v}
+            </option>
+          ))}
+        </datalist>
+      </div>
+      <div className="input-group">
+        <label htmlFor="layout-data">Layout Data</label>
+        <textarea
+          className="layoutInput"
+          id="layout-data"
+          onChange={(e) => setLayoutData(e.currentTarget.value)}
+          value={layoutData}
+        ></textarea>
+      </div>
       <div className="row end">
         <button className="button" onClick={handleSave}>
           Save

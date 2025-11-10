@@ -21,15 +21,16 @@ body,
 }
 
 main {
+  overflow: hidden;
   display: grid;
   grid-template-columns: 35% 30% 35%;
   grid-template-rows: 1fr auto;
   width: 100%;
   height: 100%;
-  align-content: stretch;
-  justify-content: stretch;
-  overflow: hidden;
-  gap: 0px;
+}
+
+.status {
+  grid-column: span 3 / span 3;
 }
 
 .button {
@@ -108,6 +109,12 @@ div.settings {
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
 }
 
 input,
@@ -125,34 +132,30 @@ textarea {
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  margin-top: 1rem;
 }
 
 .end {
   justify-content: flex-end;
 }
 
-.layoutNameInput {
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-}
 .layoutInput {
   min-height: 200px;
 }
 
+.landscape-always {
+  --width: 100vw;
+  --height: 100vh;
+  width: var(--width);
+  height: var(--height);
+}
+
 /* handles keeping the content always landscape */
 @media only screen and (orientation: portrait) {
-  #root {
+  .landscape-always {
     transform: rotate(-90deg) translate(-100vh, 0px);
     transform-origin: left top; /* Adjusts the rotation point */
-    width: 100vh; /* Sets the width to the height of the viewport */
-    height: 100vw; /* Sets the height to the width of the viewport */
+    --width: 100vh;
+    --height: 100vw;
     overflow: hidden;
-    /* Prevents overflow */
-  }
-  #content {
-    width: 100%;
-    padding: 5px;
-    max-width: calc(100vh / 3);
   }
 }
