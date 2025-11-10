@@ -2,12 +2,13 @@ import KeyboardSection from "./components/KeyboardSection.tsx";
 import Output from "./components/Output.tsx";
 import type { KeyPressEvent } from "./components/Key.tsx";
 import useInputs from "./helpers/hooks/useInputs.ts";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { getLayout } from "./helpers/keyboardLayouts.ts";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { actions } from "./helpers/actions.ts";
 import { commands } from "./helpers/commands.ts";
+import SystemKeyboard from "./components/SystemKeyboard.tsx";
 
 function App() {
   const inputs = useInputs({
@@ -18,11 +19,6 @@ function App() {
   const [keyboardLayout, setKeyboardLayout] = useState(getLayout("default"));
   const mainInput = inputs.getInput("main");
   const commandModeInput = inputs.getInput("commandMode");
-
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyboardDown);
-    return () => document.removeEventListener("keydown", handleKeyboardDown);
-  }, [inputs.raw.active]);
 
   const handleCommand = (
     command: string,
@@ -44,23 +40,6 @@ function App() {
     },
     [inputs.raw.active]
   );
-
-  function handleKeyboardDown(ev: KeyboardEvent) {
-    if (ev.key == "Backspace") handleKeyClick({ action: "remove", payload: 1 });
-    else if (ev.key == "Delete") {
-      handleKeyClick({ action: "remove", payload: -1 });
-    } else if (ev.key == "Escape") {
-      inputs.setActive("commandMode");
-    } else if (ev.key == "ArrowRight") {
-      handleKeyClick({ action: "cursor", payload: 1 });
-    } else if (ev.key == "ArrowLeft") {
-      handleKeyClick({ action: "cursor", payload: -1 });
-    } else if (ev.key == "Enter") {
-      handleKeyClick({ action: "enter", payload: 1 });
-    } else if (ev.key.length == 1) {
-      handleKeyClick({ action: "insert", payload: ev.key });
-    }
-  }
 
   return (
     <main>
@@ -89,6 +68,7 @@ function App() {
           blink={commandModeInput?.blink ?? false}
         />
       </section>
+      <SystemKeyboard onClick={handleKeyClick}></SystemKeyboard>
     </main>
   );
 }
