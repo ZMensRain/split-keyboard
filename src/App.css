@@ -7,14 +7,17 @@ body,
 #root {
   height: 100vh;
   width: 100vw;
-  background-color: black;
+  background-color: var(--background);
   color: white;
   overflow: hidden;
   position: fixed;
-  --background: black;
-  --surface: #2b2b2b;
-  --foreground: white;
-  --key: #6a6a6a;
+
+  --foreground: #f8e0eb;
+  --background: #12040a;
+  --primary: #d7a2bc;
+
+  --surface: #ffffff12;
+  --key: var(--background);
 }
 
 main {
@@ -29,6 +32,15 @@ main {
   gap: 0px;
 }
 
+.button {
+  background-color: var(--primary);
+  color: var(--background);
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
 /* Grid items */
 
 #status {
@@ -38,6 +50,7 @@ main {
 .keyboard-section {
   display: grid;
   gap: 8px;
+  padding: 5px;
   grid-template-columns: repeat(5, 1fr);
   grid-auto-flow: dense;
   background-color: var(--surface);
@@ -71,7 +84,7 @@ main {
 }
 .key:not(.key-blank):active {
   transition: 200ms;
-  opacity: 0.9;
+  opacity: 0.8;
 }
 
 /* Styles blank keys */
@@ -91,13 +104,10 @@ main {
   user-select: none;
 }
 
-p {
-  min-height: 1em;
-}
-
 div.settings {
   padding: 1rem;
-  overflow-x: scroll;
+  display: flex;
+  flex-direction: column;
 }
 
 input,
@@ -105,7 +115,10 @@ textarea {
   background-color: var(--background);
   color: var(--foreground);
   border-style: solid;
+  border-width: 1px;
+  padding: 5px;
 }
+
 .row {
   display: flex;
   flex-direction: row;
@@ -119,24 +132,14 @@ textarea {
   justify-content: flex-end;
 }
 
-.button {
-  background-color: var(--key);
-  color: var(--foreground);
-  border: none;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-}
-
 .layoutNameInput {
-  width: 100%;
   margin-bottom: 1rem;
   margin-top: 1rem;
 }
 .layoutInput {
-  width: 100%;
   min-height: 200px;
 }
+
 /* handles keeping the content always landscape */
 @media only screen and (orientation: portrait) {
   #root {
