@@ -1,44 +1,28 @@
 import KeyboardSection from "./components/KeyboardSection.tsx";
 import Output from "./components/Output.tsx";
 import type { KeyPressEvent } from "./components/Key.tsx";
-import useInputs from "./helpers/hooks/useInputs.ts";
 import { useCallback } from "react";
-import { getLayout } from "./helpers/keyboardLayouts.ts";
-import { useState } from "react";
-import { useNavigate } from "react-router";
 import { actions } from "./helpers/actions.ts";
-import { commands } from "./helpers/commands.ts";
 import SystemKeyboard from "./components/SystemKeyboard.tsx";
+import { useInputsStore } from "./helpers/hooks/useInputStore.ts";
+import { handleCommand } from "./helpers/commands.ts";
+import { useNavigate } from "react-router";
 
 function App() {
-  const inputs = useInputs({
-    main: {},
-    commandMode: {},
-  });
   const navigate = useNavigate();
-  const [keyboardLayout, setKeyboardLayout] = useState(getLayout("default"));
-  const mainInput = inputs.getInput("main");
-  const commandModeInput = inputs.getInput("commandMode");
-
-  const handleCommand = (
-    command: string,
-    inputs: ReturnType<typeof useInputs>
-  ) => {
-    let parts = command.split(" ");
-    let c = commands.find(
-      (command) => command.names.find((v) => v == parts[0]) !== undefined
-    );
-    c?.handler(inputs, parts, navigate);
-  };
+  const activeName = useInputsStore((state) => state.activeName);
+  const keyboardLayout = useInputsStore((state) => state.keyboardLayout);
 
   const handleKeyClick = useCallback(
     ({ action, payload }: KeyPressEvent) => {
       // prevents invalid keys
       if (action == null || payload == null) return;
 
-      actions[action](inputs, payload, setKeyboardLayout, handleCommand);
+      actions[action](payload, activeName, (command: string) => {
+        handleCommand(command, navigate);
+      });
     },
-    [inputs.raw.active]
+    [activeName, navigate]
   );
 
   return (
@@ -49,11 +33,7 @@ function App() {
         onKeyClick={handleKeyClick}
       />
       <section id="content">
-        <Output
-          cursor={mainInput?.cursor ?? 0}
-          text={mainInput?.text ?? ""}
-          blink={mainInput?.blink ?? false}
-        />
+        <Output name="main" />
       </section>
       <KeyboardSection
         name="right"
@@ -61,12 +41,9 @@ function App() {
         onKeyClick={handleKeyClick}
       />
       <section id="status">
-        <Output
-          prefix=": "
-          cursor={commandModeInput?.cursor ?? 0}
-          text={commandModeInput?.text ?? ""}
-          blink={commandModeInput?.blink ?? false}
-        />
+        <div>
+          <Output prefix=": " name="commandMode" />
+        </div>
       </section>
       <SystemKeyboard onClick={handleKeyClick}></SystemKeyboard>
     </main>

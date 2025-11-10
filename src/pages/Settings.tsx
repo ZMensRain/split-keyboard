@@ -5,6 +5,7 @@ import {
   setLayout,
 } from "../helpers/keyboardLayouts";
 import { useNavigate } from "react-router";
+import { useInputsStore } from "../helpers/hooks/useInputStore";
 
 export default function Settings() {
   const [selectedLayout, setSelectedLayout] = useState("default");
@@ -16,6 +17,9 @@ export default function Settings() {
 
   function handleSave() {
     setLayout(selectedLayout, JSON.parse(layoutData));
+    useInputsStore.setState((state) => {
+      state.keyboardLayout = getLayout("default");
+    });
     navigate("/");
   }
 

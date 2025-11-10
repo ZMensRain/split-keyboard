@@ -1,12 +1,10 @@
-import type { KeyboardLayout } from "../model/keyboardLayout";
-import type useInputs from "./hooks/useInputs";
+import { useInputsStore } from "./hooks/useInputStore";
 import { getLayout } from "./keyboardLayouts";
 
 type action = (
-  userInputs: ReturnType<typeof useInputs>,
-  payload: any,
-  setKeyboardLayout: (layout: KeyboardLayout) => void,
-  handleCommand: (command: string, inputs: ReturnType<typeof useInputs>) => void
+  payload: unknown,
+  activeName: string,
+  handleCommand: (command: string) => void
 ) => void;
 
 type props = {
@@ -14,31 +12,32 @@ type props = {
 };
 
 export const actions: props = {
-  insert: (inputs, payload) => {
-    if (typeof payload === "string") inputs.getActive()?.insert(payload);
+  insert: (payload, activeName) => {
+    if (typeof payload !== "string") return;
+    useInputsStore.getState().insert(activeName, payload);
   },
-  remove: (inputs, payload) => {
-    if (typeof payload == "number") inputs.getActive()?.remove(payload);
+  remove: (payload, activeName) => {
+    if (typeof payload !== "number") return;
+    useInputsStore.getState().remove(activeName, payload);
   },
-  cursor: (inputs, payload) => {
-    if (typeof payload == "number") inputs.getActive()?.moveCursor(payload);
+  cursor: (payload, activeName) => {
+    if (typeof payload !== "number") return;
+    useInputsStore.getState().moveCursor(activeName, payload, true);
   },
-  save: (inputs, _) => {
-    inputs.getActive()?.download("default");
+  switchInput: (payload) => {
+    if (typeof payload !== "string") return;
+    useInputsStore.getState().setActiveName(payload);
   },
-  switchInput: (inputs, payload) => {
-    if (typeof payload == "string") inputs.setActive(payload);
-  },
-  enter: (inputs, _, _1, handleCommand) => {
-    if (inputs.raw.active == "commandMode") {
-      inputs.getActive()?.rawAccess.setText((p) => {
-        handleCommand(p, inputs);
-        return "";
-      });
+  enter: (_, activeName, handleCommand) => {
+    if (activeName == "commandMode") {
+      const command = useInputsStore.getState().inputs[activeName].text;
+      handleCommand(command);
+      return;
     }
-    inputs.getActive()?.insert("\n");
+    useInputsStore.getState().insert(activeName, "\n");
   },
-  switchLayout: (_, payload, setKeyboardLayout) => {
-    if (typeof payload == "string") setKeyboardLayout(getLayout(payload));
+  switchLayout: (payload) => {
+    if (typeof payload !== "string") return;
+    useInputsStore.setState({ keyboardLayout: getLayout(payload) });
   },
 };

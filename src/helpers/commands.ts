@@ -1,31 +1,54 @@
-import type { useNavigate } from "react-router";
-import type useInputs from "./hooks/useInputs";
+import type { NavigateFunction } from "react-router";
+import { useInputsStore } from "./hooks/useInputStore";
 
 export const commands: Array<{
   names: Array<string>;
   handler: (
-    userInputs: ReturnType<typeof useInputs>,
+    store: typeof useInputsStore,
     commandParts: string[],
-    navigate: ReturnType<typeof useNavigate>
+    navigate: NavigateFunction
   ) => void;
 }> = [
   {
     names: ["w", "save", "write"],
-    handler: (userInputs, commandParts) => {
+    handler: (store, commandParts) => {
       if (commandParts.length < 2) return;
-      userInputs.getInput("main")?.download(commandParts[1]);
+
+      const text = store.getState().inputs["main"].text;
+
+      const element = document.createElement("a");
+      element.setAttribute(
+        "href",
+        "data:text/plain;charset=utf-8, " + encodeURIComponent(text)
+      );
+      element.setAttribute("download", commandParts[1]);
+      document.body.appendChild(element);
+      element.click();
+
+      document.body.removeChild(element);
     },
   },
   {
     names: ["exit", "q", "quit"],
-    handler: (userInputs, _commandParts) => {
-      userInputs.setActive("main");
+    handler: (store) => {
+      const state = store.getState();
+      state.setActiveName("main");
+      state.clear("commandMode");
     },
   },
   {
     names: ["settings"],
-    handler: (_userInputs, _commandParts: string[], navigate) => {
+    handler: (_store, _commandParts: string[], navigate) => {
       navigate("/settings");
     },
   },
 ];
+
+export const handleCommand = (command: string, navigate: NavigateFunction) => {
+  const parts = command.split(" ");
+  const c = commands.find(
+    (command) => command.names.find((v) => v == parts[0]) !== undefined
+  );
+  c?.handler(useInputsStore, parts, navigate);
+  useInputsStore.getState().clear("commandMode");
+};
