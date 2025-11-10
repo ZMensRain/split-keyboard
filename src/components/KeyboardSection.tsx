@@ -12,7 +12,7 @@ const KeyboardSection = memo(function KeyboardSection(props: props) {
   const keys = props.keys;
 
   return (
-    <section id={props.name}>
+    <section id={props.name} className="keyboard-section">
       {keys.map((keyboardKey, index) => (
         <Key
           {...keyboardKey}

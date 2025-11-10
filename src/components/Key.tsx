@@ -26,8 +26,13 @@ const HOLD_START_OFFSET = 700;
 const Key = memo((props: props) => {
   const intervalRef = useRef<number | undefined>(undefined);
   const timeoutRef = useRef<number | undefined>(undefined);
-  const visual = props.label ?? props.payload;
-  const className = `key key-${visual} span-x-${props.width} span-y-${props.height} unselectable`;
+  const visual =
+    props.action == "blank" ? "blank" : props.label ?? props.payload;
+  const className = `key key-${visual} unselectable`;
+  const style = {
+    gridColumn: `span ${props.width}`,
+    gridRow: `span ${props.height}`,
+  };
 
   useEffect(() => {
     return () => {
@@ -54,14 +59,14 @@ const Key = memo((props: props) => {
     clearInterval(intervalRef.current);
   }
 
-  // handles blank keys
-  if (props.action == "blank") return <div className={className}></div>;
   return (
     <button
       className={className}
       onPointerDown={handleClick}
       onPointerUp={stop}
       onPointerLeave={stop}
+      style={style}
+      aria-hidden={props.action == "blank"}
     >
       {String(visual)}
     </button>
