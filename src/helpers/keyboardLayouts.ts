@@ -2,18 +2,33 @@ import { defaultLayout, type KeyboardLayout } from "../model/keyboardLayout";
 import { db } from "./db";
 
 export async function getLayout(layoutName: string): Promise<KeyboardLayout> {
-  const result = await db.KeyboardLayouts.where("name")
-    .equals(layoutName)
-    .first();
-  if (result == null) return defaultLayout;
-  if (!validateLayout(result)) return defaultLayout;
+  try {
+    const result = await db.KeyboardLayouts.where("name")
+      .equals(layoutName)
+      .first();
+    if (result == null) return defaultLayout;
+    if (!validateLayout(result)) return defaultLayout;
 
-  return result;
+    return result;
+  } catch (e) {
+    console.log(e);
+    return defaultLayout;
+  }
 }
 
 export function setLayout(layoutName: string, layout: KeyboardLayout) {
-  if (!validateLayout(layout)) return;
-  db.KeyboardLayouts.upsert(layoutName, layout);
+  try {
+    if (!validateLayout(layout)) return;
+    db.KeyboardLayouts.upsert(layoutName, layout);
+  } catch (error) {
+    if (error) {
+      alert(
+        "Error saving layout: " +
+          error +
+          " This may be caused by you blocking all cookies. Please allow cookies and try again."
+      );
+    }
+  }
 }
 
 export function validateLayout(layout: KeyboardLayout): boolean {
@@ -31,11 +46,20 @@ export function validateLayout(layout: KeyboardLayout): boolean {
 }
 
 export async function getAllLayoutNames(): Promise<string[]> {
-  const query = await db.KeyboardLayouts.toArray();
-  const layoutNames = query.map((l) => l.name);
+  try {
+    const query = await db.KeyboardLayouts.toArray();
+    const layoutNames = query.map((l) => l.name);
 
-  if (layoutNames.find((l) => l == "default") == undefined) {
-    layoutNames.push("default");
+    if (layoutNames.find((l) => l == "default") == undefined) {
+      layoutNames.push("default");
+    }
+    return layoutNames;
+  } catch (error) {
+    alert(
+      "Error getting layout names: " +
+        error +
+        " This may be caused by you blocking all cookies. Please allow cookies to use custom keyboards."
+    );
+    return [];
   }
-  return layoutNames;
 }
