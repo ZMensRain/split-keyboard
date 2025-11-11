@@ -7,11 +7,16 @@ import SystemKeyboard from "./components/SystemKeyboard.tsx";
 import { useInputsStore } from "./helpers/hooks/useInputStore.ts";
 import { handleCommand } from "./helpers/commands.ts";
 import { useNavigate } from "react-router";
+import { useLiveQuery } from "dexie-react-hooks";
+import { getLayout } from "./helpers/keyboardLayouts.ts";
+import { defaultLayout } from "./model/keyboardLayout.ts";
 
 function App() {
   const navigate = useNavigate();
   const activeName = useInputsStore((state) => state.activeName);
-  const keyboardLayout = useInputsStore((state) => state.keyboardLayout);
+  const LayoutName = useInputsStore((state) => state.activeLayoutName);
+  const keyboardLayout =
+    useLiveQuery(() => getLayout(LayoutName), [LayoutName]) ?? defaultLayout;
 
   const handleKeyClick = useCallback(
     ({ action, payload }: KeyPressEvent) => {

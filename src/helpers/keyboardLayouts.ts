@@ -1,23 +1,34 @@
 import { defaultLayout, type KeyboardLayout } from "../model/keyboardLayout";
-const prefix = "keyboardLayout-";
+import { db } from "./db";
 
-export function getLayout(layout: string): KeyboardLayout {
-  // fetch layout from localStorage and return default layout if it does not exist
-  const fetchedLayout = localStorage.getItem(prefix + layout);
-  if (fetchedLayout == null) return defaultLayout;
+export async function getLayout(layoutName: string): Promise<KeyboardLayout> {
+  try {
+    const result = await db.KeyboardLayouts.where("name")
+      .equals(layoutName)
+      .first();
+    if (result == null) return defaultLayout;
+    if (!validateLayout(result)) return defaultLayout;
 
-  const parsedLayout: KeyboardLayout = JSON.parse(fetchedLayout);
-
-  //validate keyboard layout
-  if (parsedLayout == null || !validateLayout(parsedLayout))
+    return result;
+  } catch (e) {
+    console.log(e);
     return defaultLayout;
-
-  return parsedLayout;
+  }
 }
 
 export function setLayout(layoutName: string, layout: KeyboardLayout) {
-  if (!validateLayout(layout)) return;
-  localStorage.setItem(prefix + layoutName, JSON.stringify(layout));
+  try {
+    if (!validateLayout(layout)) return;
+    db.KeyboardLayouts.upsert(layoutName, layout);
+  } catch (error) {
+    if (error) {
+      alert(
+        "Error saving layout: " +
+          error +
+          " This may be caused by you blocking all cookies. Please allow cookies and try again."
+      );
+    }
+  }
 }
 
 export function validateLayout(layout: KeyboardLayout): boolean {
@@ -34,16 +45,21 @@ export function validateLayout(layout: KeyboardLayout): boolean {
   return true;
 }
 
-export function getAllLayoutNames(): string[] {
-  let layoutNames: string[] = [];
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key == null) continue;
-    if (key.startsWith(prefix)) layoutNames.push(key.replace(prefix, ""));
-  }
-  // makes sure that there is always at least one keyboard layout
-  if (!layoutNames.includes("default"))
-    layoutNames = ["default", ...layoutNames];
+export async function getAllLayoutNames(): Promise<string[]> {
+  try {
+    const query = await db.KeyboardLayouts.toArray();
+    const layoutNames = query.map((l) => l.name);
 
-  return layoutNames;
+    if (layoutNames.find((l) => l == "default") == undefined) {
+      layoutNames.push("default");
+    }
+    return layoutNames;
+  } catch (error) {
+    alert(
+      "Error getting layout names: " +
+        error +
+        " This may be caused by you blocking all cookies. Please allow cookies to use custom keyboards."
+    );
+    return [];
+  }
 }

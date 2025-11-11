@@ -1,5 +1,4 @@
 import { useInputsStore } from "./hooks/useInputStore";
-import { getLayout } from "./keyboardLayouts";
 
 type action = (
   payload: unknown,
@@ -38,6 +37,6 @@ export const actions: props = {
   },
   switchLayout: (payload) => {
     if (typeof payload !== "string") return;
-    useInputsStore.setState({ keyboardLayout: getLayout(payload) });
+    useInputsStore.setState({ activeLayoutName: payload });
   },
 };

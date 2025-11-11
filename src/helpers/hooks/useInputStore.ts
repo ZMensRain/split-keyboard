@@ -1,7 +1,5 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-import { type KeyboardLayout } from "../../model/keyboardLayout";
-import { getLayout } from "../keyboardLayouts";
 
 type Inputs = { [key: string]: Input };
 
@@ -10,7 +8,7 @@ export type Input = { text: string; cursor: number };
 type InputsState = {
   inputs: Inputs;
   activeName: string;
-  keyboardLayout: KeyboardLayout;
+  activeLayoutName: string;
   setActiveName: (name: string) => void;
   insert: (name: string, text: string) => void;
   remove: (name: string, amount: number) => void;
@@ -25,7 +23,7 @@ export const useInputsStore = create<InputsState>()(
       commandMode: { cursor: 0, text: "" },
     },
     activeName: "main",
-    keyboardLayout: getLayout("default"),
+    activeLayoutName: "default",
     setActiveName: (name) =>
       set((state) => {
         state.activeName = name;

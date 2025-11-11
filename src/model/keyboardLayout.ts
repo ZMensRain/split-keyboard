@@ -1,11 +1,13 @@
 import type { KeyType } from "../components/Key.tsx";
 
 export type KeyboardLayout = {
+  name: string;
   left: KeyType[];
   right: KeyType[];
 };
 
 export const defaultLayout: KeyboardLayout = {
+  name: "default",
   left: [
     {
       action: "insert",
