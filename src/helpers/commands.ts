@@ -3,6 +3,7 @@ import { useInputsStore } from "./hooks/useInputStore";
 
 export const commands: Array<{
   names: Array<string>;
+  description?: string;
   handler: (
     store: typeof useInputsStore,
     commandParts: string[],
@@ -11,6 +12,7 @@ export const commands: Array<{
 }> = [
   {
     names: ["w", "save", "write"],
+    description: "Saves the text in the main input to a file",
     handler: (store, commandParts) => {
       if (commandParts.length < 2) return;
 
@@ -30,24 +32,34 @@ export const commands: Array<{
   },
   {
     names: ["exit", "q", "quit"],
+    description: "Exits command mode",
     handler: (store) => {
       const state = store.getState();
       state.setActiveName("main");
-      state.clear("commandMode");
     },
   },
   {
     names: ["settings"],
+    description: "Opens the settings page",
     handler: (_store, _commandParts: string[], navigate) => {
       navigate("/settings");
     },
   },
   {
     names: ["layout"],
+    description:
+      "Switches the active keyboard layout used like 'layout <keyboard layout name>'",
     handler: (store, commandParts: string[]) => {
       if (commandParts.length < 2) return;
 
       store.setState({ activeLayoutName: commandParts[1] });
+    },
+  },
+  {
+    names: ["help"],
+    description: "Opens the FAQ page",
+    handler: (_store, _commandParts, navigate) => {
+      navigate("/FAQ");
     },
   },
 ];

@@ -32,7 +32,7 @@ function App() {
 
   return (
     <div className="landscape-always">
-      <main>
+      <main id="app">
         <KeyboardSection
           name="left"
           keys={keyboardLayout.left}

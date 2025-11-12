@@ -20,7 +20,7 @@ body,
   --key: var(--background);
 }
 
-main {
+#app {
   overflow: hidden;
   display: grid;
   grid-template-columns: 35% 30% 35%;
@@ -34,6 +34,7 @@ main {
 }
 
 .button {
+  display: inline-block;
   background-color: var(--primary);
   color: var(--background);
   border: none;
@@ -154,9 +155,18 @@ textarea {
   width: var(--width);
   height: var(--height);
 }
-ul {
+ul,
+ol {
   padding-left: 1.5rem;
 }
+
+.faq {
+  padding: 1%;
+}
+.faq section {
+  margin-bottom: 1rem;
+}
+
 /* handles keeping the content always landscape */
 @media only screen and (orientation: portrait) {
   .landscape-always {

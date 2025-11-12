@@ -4,12 +4,14 @@ import "./App.css";
 import App from "./App.tsx";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Settings from "./pages/Settings.tsx";
+import FAQ from "./pages/FAQ.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/FAQ" element={<FAQ />} />
         <Route path="/settings/">
           <Route index element={<Settings />} />
           <Route path="/settings/*" element={<Settings />} />
