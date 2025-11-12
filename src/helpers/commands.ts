@@ -42,6 +42,14 @@ export const commands: Array<{
       navigate("/settings");
     },
   },
+  {
+    names: ["layout"],
+    handler: (store, commandParts: string[]) => {
+      if (commandParts.length < 2) return;
+
+      store.setState({ activeLayoutName: commandParts[1] });
+    },
+  },
 ];
 
 export const handleCommand = (command: string, navigate: NavigateFunction) => {
