@@ -36,8 +36,8 @@ export default function Settings() {
   }
 
   return (
-    <div className="settings">
-      <div className="settings-content">
+    <div className="settings scrollable-container">
+      <div className="scrollable-content">
         <h2>Layouts</h2>
         <div className="input-group">
           <label htmlFor="layout">Layout Name</label>

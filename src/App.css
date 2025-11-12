@@ -107,12 +107,12 @@ body,
   user-select: none;
 }
 
-div.settings {
+.scrollable-container {
   height: 100vh;
   overflow-y: scroll;
 }
 
-.settings-content {
+.scrollable-content {
   display: flex;
   flex-direction: column;
   margin: 1rem;
@@ -160,9 +160,6 @@ ol {
   padding-left: 1.5rem;
 }
 
-.faq {
-  padding: 1%;
-}
 .faq section {
   margin-bottom: 1rem;
 }

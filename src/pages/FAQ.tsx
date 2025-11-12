@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import { commands } from "../helpers/commands";
-import { actions } from "../helpers/actions";
+import { GetActions } from "../helpers/actions";
 
 export default function FAQ() {
   const navigate = useNavigate();
@@ -10,8 +10,8 @@ export default function FAQ() {
   }
 
   return (
-    <main className="faq">
-      <article>
+    <main className="faq scrollable-container">
+      <article className="scrollable-content">
         <h1>FAQ</h1>
         <p>This is a FAQ page</p>
         <section></section>
@@ -35,49 +35,44 @@ export default function FAQ() {
         </section>
         <section>
           <h2>How do I edit a keyboard layout or add a new one?</h2>
-          <p>
-            To edit or create a keyboard layout:
-            <ol>
-              <li>Enter Command Mode using the ፧ key</li>
-              <li>
-                type <code>settings</code> and press enter
-              </li>
-              <li>
-                Enter the keyboard layout name. layouts that have already been
-                created will suggested
-              </li>
-              <li>
-                Once you have selected the name for the layout you want to edit
-                or create, you can edit the json data the stores the keyboard
-                layout
-              </li>
-              <li>To save press the save button</li>
-            </ol>
-          </p>
+          <p>To edit or create a keyboard layout:</p>
+          <ol>
+            <li>Enter Command Mode using the ፧ key</li>
+            <li>
+              type <code>settings</code> and press enter
+            </li>
+            <li>
+              Enter the keyboard layout name. layouts that have already been
+              created will suggested
+            </li>
+            <li>
+              Once you have selected the name for the layout you want to edit or
+              create, you can edit the json data the stores the keyboard layout
+            </li>
+            <li>To save press the save button</li>
+          </ol>
         </section>
         <section>
           <h2>What commands are available?</h2>
-          <p>
-            The following commands are available:
-            <ul>
-              {commands.map((c) => (
-                <li>
-                  <code>{c.names.join(", ")}</code>: {c.description}
-                </li>
-              ))}
-            </ul>
-          </p>
+          <p>The following commands are available:</p>
+          <ul>
+            {commands.map((c) => (
+              <li key={c.names.join(", ")}>
+                <code>{c.names.join(", ")}</code>: {c.description}
+              </li>
+            ))}
+          </ul>
         </section>
         <section>
           <h2>What keyboard actions are available?</h2>
-          <p>
-            The following actions are available:
-            <ul>
-              {Object.keys(actions).map((c) => (
-                <li>{c}</li>
-              ))}
-            </ul>
-          </p>
+          <p>The following actions are available:</p>
+          <ul>
+            {Object.entries(GetActions()).map((action) => (
+              <li key={action[0]}>
+                <code>{action[0]}</code>: {action[1].description}
+              </li>
+            ))}
+          </ul>
         </section>
         <button onClick={launchApp} className="button">
           Launch App
