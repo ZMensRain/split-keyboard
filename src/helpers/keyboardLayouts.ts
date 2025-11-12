@@ -1,18 +1,26 @@
-import { defaultLayout, type KeyboardLayout } from "../model/keyboardLayout";
+import {
+  defaultLayout,
+  FallbackLayouts,
+  type KeyboardLayout,
+} from "../model/keyboardLayout";
 import { db } from "./db";
 
 export async function getLayout(layoutName: string): Promise<KeyboardLayout> {
+  // handles getting a fallback layout for the layout name provided
+  let fallback = FallbackLayouts[layoutName];
+  if (fallback == undefined) fallback = defaultLayout;
+
   try {
     const result = await db.KeyboardLayouts.where("name")
       .equals(layoutName)
       .first();
-    if (result == null) return defaultLayout;
-    if (!validateLayout(result)) return defaultLayout;
+    if (result == null) return fallback;
+    if (!validateLayout(result)) return fallback;
 
     return result;
   } catch (e) {
     console.log(e);
-    return defaultLayout;
+    return fallback;
   }
 }
 
@@ -50,9 +58,12 @@ export async function getAllLayoutNames(): Promise<string[]> {
     const query = await db.KeyboardLayouts.toArray();
     const layoutNames = query.map((l) => l.name);
 
-    if (layoutNames.find((l) => l == "default") == undefined) {
-      layoutNames.push("default");
+    for (const layoutName in FallbackLayouts) {
+      if (layoutNames.find((l) => l == layoutName) == undefined) {
+        layoutNames.push(layoutName);
+      }
     }
+
     return layoutNames;
   } catch (error) {
     alert(
