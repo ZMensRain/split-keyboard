@@ -81,6 +81,30 @@ export default function FAQ() {
           </p>
         </section>
         <section>
+          <h2>
+            How do I create a new command or edit one that I have already
+            created?
+          </h2>
+          <ol>
+            <li>Enter Command Mode using the ፧ key</li>
+            <li>
+              Type <code>settings commands</code> and press enter
+            </li>
+            <li>
+              Enter the command names that you want to use to trigger it from
+              command mode. Commands that have already been created will be
+              suggested
+            </li>
+            <li>
+              Once you have selected the name for the command you want to edit
+              or create, you can edit the command producer arrow function that
+              produces the command.
+            </li>
+            <li>To save press the save button</li>
+          </ol>
+          2
+        </section>
+        <section>
           <h2>What commands are available?</h2>
           <p>The following commands are available:</p>
           <ul>

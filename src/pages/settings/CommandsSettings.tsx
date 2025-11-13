@@ -86,6 +86,42 @@ export function CommandSettings() {
             Save
           </button>
         </div>
+        <article>
+          <h2>Format</h2>
+          <p>
+            To add a new command you must write a Javascript function that takes
+            zero arguments and returns an object with the following properties:
+          </p>
+          <ul>
+            <li>
+              <code>names</code>: an array of names that could be used for this
+              command
+            </li>
+            <li>
+              <code>description</code>: a string that describes the command
+            </li>
+            <li>
+              <code>handler</code>: The handler function that is called when the
+              action is triggered. This function takes three arguments:
+              <ol>
+                <li>
+                  <code>store</code>: the store object that is used to interact
+                  with the apps state
+                </li>
+                <li>
+                  <code> commandParts</code>: string[],
+                </li>
+                <li>
+                  <code>navigate</code>: NavigateFunction
+                </li>
+              </ol>
+            </li>
+          </ul>
+          <p>
+            Make sure to keep the names array the same in the command names
+            input and in the returned object
+          </p>
+        </article>
       </div>
     </main>
   );
