@@ -101,24 +101,58 @@ const actions: Actions = {
   },
 };
 
+function GetActionFromProducer(producer: ActionProducer): Action | undefined {
+  let action: unknown;
+  try {
+    action = eval?.('"use strict"; ' + producer.producer)?.();
+  } catch (error) {
+    console.error(error, "When eval called on user action producer");
+    action = undefined;
+  }
+  // add some runtime protection against invalid actions
+  if (!isAction(action)) return;
+  return action;
+}
+
 export async function GetActions(): Promise<Actions> {
   const output: Actions = {};
   // Could be a security issue here, but I don't think it's a big deal will add a warning when adding a new action
   const request = await db.UserActions.toArray();
   request.forEach((actionProducer) => {
-    let action: unknown;
-    try {
-      action = eval?.('"use strict"; ' + actionProducer.producer)?.();
-    } catch (error) {
-      console.error(error, "When eval called on user action producer");
-      action = undefined;
-    }
-    // add some runtime protection against invalid actions
-    if (!isAction(action)) return;
+    const action = GetActionFromProducer(actionProducer);
+    if (action == undefined) return;
+
     output[actionProducer.name] = action;
   });
 
   return { ...output, ...actions };
+}
+
+export async function AddAction(
+  name: string,
+  producer: string
+): Promise<boolean> {
+  if (name in actions) {
+    alert("Cannot override built in actions");
+    return false;
+  }
+  const action = GetActionFromProducer({ name, producer });
+
+  if (action == undefined) {
+    alert("Invalid Producer function");
+    return false;
+  }
+
+  if (action.name !== name) {
+    alert("Different names provided for the same action");
+    return false;
+  }
+
+  db.UserActions.put({
+    name: name,
+    producer: producer,
+  });
+  return true;
 }
 
 export function useActions(dependencies: unknown[]): Actions {

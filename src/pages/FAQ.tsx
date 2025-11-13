@@ -77,7 +77,7 @@ export default function FAQ() {
           <h2>Can I overwrite a built in action?</h2>
           <p>
             No to prevent you from accidentally bricking the app this is not
-            supported. However the function is still stored.
+            supported.
           </p>
         </section>
         <section>
