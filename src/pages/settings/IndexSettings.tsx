@@ -23,6 +23,12 @@ export default function IndexSettings() {
         >
           Layouts
         </button>
+        <button
+          className="button"
+          onClick={() => navigate("/settings/commands")}
+        >
+          Commands
+        </button>
         <button className="button" onClick={() => navigate("/")}>
           Back to App
         </button>

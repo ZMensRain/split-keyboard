@@ -2,6 +2,7 @@
 import Dexie, { type EntityTable } from "dexie";
 import type { KeyboardLayout } from "../model/keyboardLayout";
 import type { ActionProducer } from "./actions";
+import type { CommandProducer } from "./commands";
 
 const db = new Dexie("KeyboardLayouts") as Dexie & {
   KeyboardLayouts: EntityTable<
@@ -12,12 +13,17 @@ const db = new Dexie("KeyboardLayouts") as Dexie & {
     ActionProducer,
     "name" // primary key "name" (for the typings only)
   >;
+  UserCommands: EntityTable<
+    CommandProducer,
+    "names" // primary key "name" (for the typings only)
+  >;
 };
 
 // Schema declaration:
-db.version(2).stores({
+db.version(3).stores({
   KeyboardLayouts: "name, layout",
-  UserActions: "name, description",
+  UserActions: "name, producer",
+  UserCommands: "names, producer",
 });
 
 export { db };

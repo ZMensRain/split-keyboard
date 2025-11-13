@@ -7,6 +7,7 @@ import KeyboardSettings from "./pages/settings/KeyboardSettings.tsx";
 import FAQ from "./pages/FAQ.tsx";
 import ActionSettings from "./pages/settings/ActionsSettings.tsx";
 import IndexSettings from "./pages/settings/IndexSettings.tsx";
+import { CommandSettings } from "./pages/settings/CommandsSettings.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -18,6 +19,7 @@ createRoot(document.getElementById("root")!).render(
           <Route index element={<IndexSettings />} />
           <Route path="actions" element={<ActionSettings />} />
           <Route path="layouts" element={<KeyboardSettings />} />
+          <Route path="commands" element={<CommandSettings />} />
           <Route path="*" element={<IndexSettings />} />
         </Route>
       </Routes>
