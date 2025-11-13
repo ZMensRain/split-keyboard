@@ -53,6 +53,34 @@ export default function FAQ() {
           </ol>
         </section>
         <section>
+          <h2>How do I create a new action?</h2>
+          <p>To create a new action:</p>
+          <ol>
+            <li>Enter Command Mode using the ፧ key</li>
+            <li>
+              Type <code>settings actions</code> and press enter
+            </li>
+            <li>
+              Enter the action name that you want to use when triggering it from
+              a keyboard layout. Actions that have already been created will be
+              suggested
+            </li>
+            <li>
+              Once you have selected the name for the action you want to edit or
+              create, you can edit the action producer arrow function that
+              produces the action.
+            </li>
+            <li>To save press the save button</li>
+          </ol>
+        </section>
+        <section>
+          <h2>Can I overwrite a built in action?</h2>
+          <p>
+            No to prevent you from accidentally bricking the app this is not
+            supported. However the function is still stored.
+          </p>
+        </section>
+        <section>
           <h2>What commands are available?</h2>
           <p>The following commands are available:</p>
           <ul>
