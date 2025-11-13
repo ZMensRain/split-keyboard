@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router";
 import { commands } from "../helpers/commands";
-import { GetActions } from "../helpers/actions";
+import { useActions } from "../helpers/actions";
 
 export default function FAQ() {
   const navigate = useNavigate();
-
+  const actions = useActions([]);
   function launchApp() {
     navigate("/");
   }
@@ -67,7 +67,7 @@ export default function FAQ() {
           <h2>What keyboard actions are available?</h2>
           <p>The following actions are available:</p>
           <ul>
-            {Object.entries(GetActions()).map((action) => (
+            {Object.entries(actions).map((action) => (
               <li key={action[0]}>
                 <code>{action[0]}</code>: {action[1].description}
               </li>

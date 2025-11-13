@@ -10,14 +10,14 @@ import { useNavigate } from "react-router";
 import { useLiveQuery } from "dexie-react-hooks";
 import { getLayout } from "./helpers/keyboardLayouts.ts";
 import { defaultLayout } from "./model/keyboardLayout.ts";
-import { GetActions } from "./helpers/actions.ts";
+import { useActions } from "./helpers/actions.ts";
 
 function App() {
   const navigate = useNavigate();
   const LayoutName = useInputsStore((state) => state.activeLayoutName);
   const keyboardLayout =
     useLiveQuery(() => getLayout(LayoutName), [LayoutName]) ?? defaultLayout;
-  const actions = GetActions();
+  const actions = useActions([]);
 
   const handleKeyClick = useCallback(
     ({ action, payload }: KeyPressEvent) => {

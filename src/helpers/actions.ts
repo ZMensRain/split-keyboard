@@ -1,6 +1,9 @@
+import { useLiveQuery } from "dexie-react-hooks";
+import { db } from "./db";
 import { useInputsStore } from "./hooks/useInputStore";
 
-type Action = {
+export type Action = {
+  name: string;
   description: string;
   handler: (
     payload: unknown,
@@ -9,12 +12,33 @@ type Action = {
   ) => void;
 };
 
+export function isAction(action: unknown): action is Action {
+  if (typeof action !== "object") return false;
+  if (action == null) return false;
+  if ("name" in action === false) return false;
+  if ("description" in action === false) return false;
+  if ("handler" in action === false) return false;
+
+  if (typeof action.name !== "string") return false;
+  if (typeof action.description !== "string") return false;
+  if (typeof action.handler !== "function") return false;
+
+  return true;
+}
+
+export type ActionProducer = {
+  name: string;
+  /// () => Action;
+  producer: string;
+};
+
 type Actions = {
   [key: string]: Action;
 };
 
 const actions: Actions = {
   insert: {
+    name: "insert",
     description:
       "Inserts the payload at the cursor position if it is of type string else it does nothing",
     handler: (payload, store) => {
@@ -24,6 +48,7 @@ const actions: Actions = {
     },
   },
   remove: {
+    name: "remove",
     description:
       "Removes the amount specified by the payload of characters from the cursor position",
     handler: (payload, store) => {
@@ -33,6 +58,7 @@ const actions: Actions = {
     },
   },
   cursor: {
+    name: "cursor",
     description:
       "Moves the cursor by the amount specified by the payload can be negative or positive",
     handler: (payload, store) => {
@@ -42,6 +68,7 @@ const actions: Actions = {
     },
   },
   switchInput: {
+    name: "switchInput",
     description:
       "Switches to the input  with the name specified by the payload",
     handler: (payload, store) => {
@@ -50,6 +77,7 @@ const actions: Actions = {
     },
   },
   enter: {
+    name: "enter",
     description:
       "Inserts a newline character or executes a command depending on the selected input",
     handler: (_, store, handleCommand) => {
@@ -63,6 +91,7 @@ const actions: Actions = {
     },
   },
   switchLayout: {
+    name: "switchLayout",
     description:
       "Switches the keyboard layout to the one specified by the payload",
     handler: (payload, store) => {
@@ -72,6 +101,28 @@ const actions: Actions = {
   },
 };
 
-export function GetActions(): Actions {
-  return actions;
+export async function GetActions(): Promise<Actions> {
+  const output: Actions = {};
+  // Could be a security issue here, but I don't think it's a big deal will add a warning when adding a new action
+  const request = await db.UserActions.toArray();
+  request.forEach((actionProducer) => {
+    let action: unknown;
+    try {
+      action = eval?.('"use strict"; ' + actionProducer.producer)?.();
+    } catch (error) {
+      console.error(error, "When eval called on user action producer");
+      action = undefined;
+    }
+    // add some runtime protection against invalid actions
+    if (!isAction(action)) return;
+    output[actionProducer.name] = action;
+  });
+
+  return { ...output, ...actions };
+}
+
+export function useActions(dependencies: unknown[]): Actions {
+  const out = useLiveQuery(() => GetActions(), dependencies);
+
+  return out ?? actions;
 }
