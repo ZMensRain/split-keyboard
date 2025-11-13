@@ -41,8 +41,9 @@ export const commands: Array<{
   {
     names: ["settings"],
     description: "Opens the settings page",
-    handler: (_store, _commandParts: string[], navigate) => {
-      navigate("/settings");
+    handler: (_store, commandParts: string[], navigate) => {
+      if (commandParts.length == 2) navigate("/settings/" + commandParts[1]);
+      else navigate("/settings");
     },
   },
   {

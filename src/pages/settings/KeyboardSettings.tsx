@@ -3,12 +3,12 @@ import {
   getAllLayoutNames,
   getLayout,
   setLayout,
-} from "../helpers/keyboardLayouts";
+} from "../../helpers/keyboardLayouts";
 
 import { useLiveQuery } from "dexie-react-hooks";
 import { useNavigate } from "react-router";
 
-export default function Settings() {
+export default function KeyboardSettings() {
   const navigate = useNavigate();
   const [selectedLayout, setSelectedLayout] = useState("default");
   const layouts = useLiveQuery(() => getAllLayoutNames(), []) ?? [];
@@ -34,19 +34,27 @@ export default function Settings() {
     setLayout(selectedLayout, JSON.parse(state));
     navigate("/");
   }
-
+  function handleCancel() {
+    navigate(-1);
+  }
   return (
     <div className="settings scrollable-container">
       <div className="scrollable-content">
         <h2>Layouts</h2>
+        <p className="warning">
+          WARNING: This feature requires localstorage capabilities through
+          IndexedDB.{" "}
+        </p>
         <div className="input-group">
-          <label htmlFor="layout">Layout Name</label>
+          <label htmlFor="layout" className="input-label">
+            Layout Name
+          </label>
           <input
             list="layouts"
             name="layout"
             id="layout"
             onChange={(e) => setSelectedLayout(e.target.value)}
-            className="layoutNameInput"
+            className="input-control"
             placeholder="Default"
             defaultValue={selectedLayout}
           />
@@ -59,15 +67,20 @@ export default function Settings() {
           </datalist>
         </div>
         <div className="input-group">
-          <label htmlFor="layout-data">Layout Data</label>
+          <label htmlFor="layout-data" className="input-label">
+            Layout Data
+          </label>
           <textarea
-            className="layoutInput"
+            className="input-control"
             id="layout-data"
             value={state}
             onChange={(e) => setState(e.target.value)}
           ></textarea>
         </div>
         <div className="row end">
+          <button className="button" onClick={handleCancel}>
+            Cancel
+          </button>
           <button className="button" onClick={handleSave}>
             Save
           </button>
