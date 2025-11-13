@@ -18,7 +18,9 @@ A PWA for note taking that makes use of a custom onscreen keyboard so that they 
 - TypeScript
 - Vite
 - vite-plugin-pwa
-- Tailwind
+- Dexie
+- React Router
+- Zustand
 
 ## Demo
 
