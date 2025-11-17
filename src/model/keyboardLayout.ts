@@ -618,3 +618,17 @@ export const FallbackLayouts = {
   [defaultLayout.name]: defaultLayout,
   [defaultLayoutShift.name]: defaultLayoutShift,
 };
+
+export function validateLayout(layout: KeyboardLayout): boolean {
+  if (layout.left == null || layout.right == null) return false;
+
+  // check if there is at least one switchInput for command mode.
+  // this is done to prevent users from soft locking themselves with
+  // a keyboard layout that cannot be used to navigate to settings
+  const allKeys = layout.left.concat(layout.right);
+  const switchKey = allKeys.find(
+    (k) => k.action == "switchInput" && k.payload == "commandMode"
+  );
+  if (switchKey == undefined) return false;
+  return true;
+}

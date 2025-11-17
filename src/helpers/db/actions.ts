@@ -1,40 +1,11 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "./db";
-import { useInputsStore } from "./hooks/useInputStore";
-
-export type Action = {
-  name: string;
-  description: string;
-  handler: (
-    payload: unknown,
-    store: typeof useInputsStore,
-    handleCommand: (command: string) => void
-  ) => void;
-};
-
-export function isAction(action: unknown): action is Action {
-  if (typeof action !== "object") return false;
-  if (action == null) return false;
-  if ("name" in action === false) return false;
-  if ("description" in action === false) return false;
-  if ("handler" in action === false) return false;
-
-  if (typeof action.name !== "string") return false;
-  if (typeof action.description !== "string") return false;
-  if (typeof action.handler !== "function") return false;
-
-  return true;
-}
-
-export type ActionProducer = {
-  name: string;
-  /// () => Action;
-  producer: string;
-};
-
-type Actions = {
-  [key: string]: Action;
-};
+import {
+  isAction,
+  type Action,
+  type ActionProducer,
+  type Actions,
+} from "../../model/action";
 
 const actions: Actions = {
   insert: {

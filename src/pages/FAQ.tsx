@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
-import { commands } from "../helpers/commands";
-import { useActions } from "../helpers/actions";
+import { commands } from "../helpers/db/commands";
+import { useActions } from "../helpers/db/actions";
 
 export default function FAQ() {
   const navigate = useNavigate();

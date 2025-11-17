@@ -4,7 +4,7 @@ import {
   getAllLayoutNames,
   getLayout,
   setLayout,
-} from "../../helpers/keyboardLayouts";
+} from "../../helpers/db/keyboardLayouts";
 
 import { useLiveQuery } from "dexie-react-hooks";
 import { useNavigate } from "react-router";

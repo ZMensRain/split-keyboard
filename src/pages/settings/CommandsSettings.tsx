@@ -1,8 +1,8 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { db } from "../../helpers/db";
-import { addCommand, deleteCommand } from "../../helpers/commands";
+import { db } from "../../helpers/db/db";
+import { addCommand, deleteCommand } from "../../helpers/db/commands";
 
 export function CommandSettings() {
   const navigate = useNavigate();

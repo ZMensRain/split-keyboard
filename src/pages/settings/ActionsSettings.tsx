@@ -1,8 +1,8 @@
 import { useLiveQuery } from "dexie-react-hooks";
-import { db } from "../../helpers/db";
+import { db } from "../../helpers/db/db";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { addAction, deleteAction } from "../../helpers/actions";
+import { addAction, deleteAction } from "../../helpers/db/actions";
 
 export default function ActionSettings() {
   const navigate = useNavigate();

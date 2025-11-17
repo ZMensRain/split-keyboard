@@ -1,8 +1,9 @@
 // db.ts
 import Dexie, { type EntityTable } from "dexie";
-import type { KeyboardLayout } from "../model/keyboardLayout";
-import type { ActionProducer } from "./actions";
-import type { CommandProducer } from "./commands";
+import type { KeyboardLayout } from "../../model/keyboardLayout";
+
+import type { ActionProducer } from "../../model/action";
+import type { CommandProducer } from "../../model/command";
 
 const db = new Dexie("KeyboardLayouts") as Dexie & {
   KeyboardLayouts: EntityTable<

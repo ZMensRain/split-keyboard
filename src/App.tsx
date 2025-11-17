@@ -5,12 +5,12 @@ import { useCallback } from "react";
 
 import SystemKeyboard from "./components/SystemKeyboard.tsx";
 import { useInputsStore } from "./helpers/hooks/useInputStore.ts";
-import { handleCommand } from "./helpers/commands.ts";
+import { handleCommand } from "./helpers/db/commands.ts";
 import { useNavigate } from "react-router";
 import { useLiveQuery } from "dexie-react-hooks";
-import { getLayout } from "./helpers/keyboardLayouts.ts";
+import { getLayout } from "./helpers/db/keyboardLayouts.ts";
 import { defaultLayout } from "./model/keyboardLayout.ts";
-import { useActions } from "./helpers/actions.ts";
+import { useActions } from "./helpers/db/actions.ts";
 
 function App() {
   const navigate = useNavigate();
