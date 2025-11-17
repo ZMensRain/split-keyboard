@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import {
+  DeleteLayout,
   getAllLayoutNames,
   getLayout,
   setLayout,
@@ -37,6 +38,10 @@ export default function KeyboardSettings() {
   function handleCancel() {
     navigate(-1);
   }
+  function handleDelete() {
+    DeleteLayout(selectedLayout);
+  }
+
   return (
     <div className="settings scrollable-container">
       <div className="scrollable-content">
@@ -80,6 +85,9 @@ export default function KeyboardSettings() {
         <div className="row end">
           <button className="button" onClick={handleCancel}>
             Cancel
+          </button>
+          <button className="button button-danger" onClick={handleDelete}>
+            Delete
           </button>
           <button className="button" onClick={handleSave}>
             Save

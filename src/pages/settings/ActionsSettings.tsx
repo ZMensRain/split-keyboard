@@ -2,7 +2,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../../helpers/db";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { AddAction } from "../../helpers/actions";
+import { AddAction, DeleteAction } from "../../helpers/actions";
 
 export default function ActionSettings() {
   const navigate = useNavigate();
@@ -27,6 +27,10 @@ export default function ActionSettings() {
 
   function handleCancel() {
     navigate(-1);
+  }
+
+  function handleDelete() {
+    DeleteAction(selectedAction);
   }
 
   return (
@@ -76,6 +80,9 @@ export default function ActionSettings() {
         <div className="row end">
           <button className="button" onClick={handleCancel}>
             Cancel
+          </button>
+          <button className="button button-danger" onClick={handleDelete}>
+            Delete
           </button>
           <button className="button" onClick={handleSave}>
             Save

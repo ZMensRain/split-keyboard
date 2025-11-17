@@ -2,7 +2,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { db } from "../../helpers/db";
-import { AddCommand } from "../../helpers/commands";
+import { AddCommand, DeleteCommand } from "../../helpers/commands";
 
 export function CommandSettings() {
   const navigate = useNavigate();
@@ -33,7 +33,9 @@ export function CommandSettings() {
   function handleCancel() {
     navigate(-1);
   }
-
+  function handleDelete() {
+    DeleteCommand(selectedCommand.replaceAll(" ", "").split(","));
+  }
   return (
     <main className="scrollable-container">
       <div className="scrollable-content">
@@ -81,6 +83,9 @@ export function CommandSettings() {
         <div className="row end">
           <button className="button" onClick={handleCancel}>
             Cancel
+          </button>
+          <button className="button button-danger" onClick={handleDelete}>
+            Delete
           </button>
           <button className="button" onClick={handleSave}>
             Save

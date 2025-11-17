@@ -17,6 +17,7 @@ body,
   --primary: #d7a2bc;
   --accent: #ccb958;
   --surface: #ffffff12;
+  --danger: #c25353;
   --key: var(--background);
 }
 
@@ -38,11 +39,15 @@ body,
   background-color: var(--primary);
   color: var(--background);
   border: none;
-  padding: 0.5rem;
+  padding: 0.8rem 2rem;
   border-radius: 0.5rem;
   cursor: pointer;
+  font-weight: bold;
 }
-
+.button-danger {
+  background-color: var(--danger);
+  color: var(--foreground);
+}
 /* Grid items */
 
 #status {
