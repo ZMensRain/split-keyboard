@@ -128,12 +128,15 @@ export async function AddCommand(
     return false;
   }
   if (command.names.sort().join(",") != names.sort().join(",")) {
-    console.log(names);
     alert("names lists don't match");
     return false;
   }
-  db.UserCommands.put({ producer, names });
+  db.UserCommands.put({ producer, names: names.sort() });
   return true;
+}
+
+export async function DeleteCommand(names: string[]) {
+  await db.UserCommands.delete(names.sort());
 }
 
 export const handleCommand = (command: string, navigate: NavigateFunction) => {

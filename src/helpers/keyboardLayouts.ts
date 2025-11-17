@@ -39,6 +39,10 @@ export function setLayout(layoutName: string, layout: KeyboardLayout) {
   }
 }
 
+export function DeleteLayout(name: string) {
+  db.KeyboardLayouts.delete(name);
+}
+
 export function validateLayout(layout: KeyboardLayout): boolean {
   if (layout.left == null || layout.right == null) return false;
 

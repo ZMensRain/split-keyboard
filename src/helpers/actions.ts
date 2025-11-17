@@ -155,6 +155,10 @@ export async function AddAction(
   return true;
 }
 
+export async function DeleteAction(name: string) {
+  await db.UserActions.delete(name);
+}
+
 export function useActions(dependencies: unknown[]): Actions {
   const out = useLiveQuery(() => GetActions(), dependencies);
 
