@@ -30,7 +30,7 @@ export default function ActionSettings() {
   }
 
   function handleDelete() {
-    DeleteAction(selectedAction);
+    DeleteAction(selectedAction).then(() => navigate("/"));
   }
 
   return (

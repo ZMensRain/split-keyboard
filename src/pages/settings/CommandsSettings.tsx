@@ -34,7 +34,9 @@ export function CommandSettings() {
     navigate(-1);
   }
   function handleDelete() {
-    DeleteCommand(selectedCommand.replaceAll(" ", "").split(","));
+    DeleteCommand(selectedCommand.replaceAll(" ", "").split(",")).then(() =>
+      navigate("/")
+    );
   }
   return (
     <main className="scrollable-container">

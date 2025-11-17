@@ -39,7 +39,7 @@ export default function KeyboardSettings() {
     navigate(-1);
   }
   function handleDelete() {
-    DeleteLayout(selectedLayout);
+    DeleteLayout(selectedLayout).then(() => navigate("/"));
   }
 
   return (
