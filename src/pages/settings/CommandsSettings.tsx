@@ -2,7 +2,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { db } from "../../helpers/db";
-import { AddCommand, DeleteCommand } from "../../helpers/commands";
+import { addCommand, deleteCommand } from "../../helpers/commands";
 
 export function CommandSettings() {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ export function CommandSettings() {
   }, [producers, selectedCommand]);
 
   function handleSave() {
-    AddCommand(
+    addCommand(
       selectedCommand.replaceAll(" ", "").split(","),
       producerData
     ).then((v) => (v ? navigate(-1) : undefined));
@@ -34,7 +34,7 @@ export function CommandSettings() {
     navigate(-1);
   }
   function handleDelete() {
-    DeleteCommand(selectedCommand.replaceAll(" ", "").split(",")).then(() =>
+    deleteCommand(selectedCommand.replaceAll(" ", "").split(",")).then(() =>
       navigate("/")
     );
   }

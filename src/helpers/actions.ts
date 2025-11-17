@@ -101,7 +101,7 @@ const actions: Actions = {
   },
 };
 
-function GetActionFromProducer(producer: ActionProducer): Action | undefined {
+function getActionFromProducer(producer: ActionProducer): Action | undefined {
   let action: unknown;
   try {
     action = eval?.('"use strict"; ' + producer.producer)?.();
@@ -114,12 +114,12 @@ function GetActionFromProducer(producer: ActionProducer): Action | undefined {
   return action;
 }
 
-export async function GetActions(): Promise<Actions> {
+export async function getActions(): Promise<Actions> {
   const output: Actions = {};
   // Could be a security issue here, but I don't think it's a big deal will add a warning when adding a new action
   const request = await db.UserActions.toArray();
   request.forEach((actionProducer) => {
-    const action = GetActionFromProducer(actionProducer);
+    const action = getActionFromProducer(actionProducer);
     if (action == undefined) return;
 
     output[actionProducer.name] = action;
@@ -128,7 +128,7 @@ export async function GetActions(): Promise<Actions> {
   return { ...output, ...actions };
 }
 
-export async function AddAction(
+export async function addAction(
   name: string,
   producer: string
 ): Promise<boolean> {
@@ -136,7 +136,7 @@ export async function AddAction(
     alert("Cannot override built in actions");
     return false;
   }
-  const action = GetActionFromProducer({ name, producer });
+  const action = getActionFromProducer({ name, producer });
 
   if (action == undefined) {
     alert("Invalid Producer function");
@@ -155,12 +155,12 @@ export async function AddAction(
   return true;
 }
 
-export async function DeleteAction(name: string) {
+export async function deleteAction(name: string) {
   await db.UserActions.delete(name);
 }
 
 export function useActions(dependencies: unknown[]): Actions {
-  const out = useLiveQuery(() => GetActions(), dependencies);
+  const out = useLiveQuery(() => getActions(), dependencies);
 
   return out ?? actions;
 }

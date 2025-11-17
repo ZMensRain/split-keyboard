@@ -39,7 +39,7 @@ export function setLayout(layoutName: string, layout: KeyboardLayout) {
   }
 }
 
-export async function DeleteLayout(name: string) {
+export async function deleteLayout(name: string) {
   await db.KeyboardLayouts.delete(name);
 }
 

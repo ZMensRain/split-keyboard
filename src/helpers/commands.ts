@@ -88,7 +88,7 @@ export const commands: Command[] = [
   },
 ];
 
-function GetCommandFromProducer(producer: CommandProducer) {
+function getCommandFromProducer(producer: CommandProducer) {
   let command: unknown;
   try {
     command = eval?.('"use strict"; ' + producer.producer)?.();
@@ -104,12 +104,12 @@ function GetCommandFromProducer(producer: CommandProducer) {
   return command;
 }
 
-export async function GetCommands(): Promise<Command[]> {
+export async function getCommands(): Promise<Command[]> {
   const output: Command[] = [];
   // Could be a security issue here, but I don't think it's a big deal will add a warning when adding a new action
   const request = await db.UserCommands.toArray();
   request.forEach((commandProducer) => {
-    const command = GetCommandFromProducer(commandProducer);
+    const command = getCommandFromProducer(commandProducer);
     if (command == undefined) return;
 
     output.push(command);
@@ -118,11 +118,11 @@ export async function GetCommands(): Promise<Command[]> {
   return [...commands, ...output];
 }
 
-export async function AddCommand(
+export async function addCommand(
   names: string[],
   producer: string
 ): Promise<boolean> {
-  const command = GetCommandFromProducer({ names, producer });
+  const command = getCommandFromProducer({ names, producer });
   if (command === undefined) {
     alert("Invalid command producer");
     return false;
@@ -135,14 +135,14 @@ export async function AddCommand(
   return true;
 }
 
-export async function DeleteCommand(names: string[]) {
+export async function deleteCommand(names: string[]) {
   await db.UserCommands.delete(names.sort());
 }
 
 export const handleCommand = (command: string, navigate: NavigateFunction) => {
   const parts = command.split(" ");
 
-  GetCommands().then((commands) => {
+  getCommands().then((commands) => {
     const c = commands.find(
       (command) => command.names.find((v) => v == parts[0]) !== undefined
     );

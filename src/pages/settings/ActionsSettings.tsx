@@ -2,7 +2,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../../helpers/db";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { AddAction, DeleteAction } from "../../helpers/actions";
+import { addAction, deleteAction } from "../../helpers/actions";
 
 export default function ActionSettings() {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ export default function ActionSettings() {
   }, [producers, selectedAction]);
 
   function handleSave() {
-    AddAction(selectedAction, producerData).then((v) =>
+    addAction(selectedAction, producerData).then((v) =>
       v ? navigate("/") : undefined
     );
   }
@@ -30,7 +30,7 @@ export default function ActionSettings() {
   }
 
   function handleDelete() {
-    DeleteAction(selectedAction).then(() => navigate("/"));
+    deleteAction(selectedAction).then(() => navigate("/"));
   }
 
   return (

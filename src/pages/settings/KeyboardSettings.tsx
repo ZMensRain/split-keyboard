@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-  DeleteLayout,
+  deleteLayout,
   getAllLayoutNames,
   getLayout,
   setLayout,
@@ -39,7 +39,7 @@ export default function KeyboardSettings() {
     navigate(-1);
   }
   function handleDelete() {
-    DeleteLayout(selectedLayout).then(() => navigate("/"));
+    deleteLayout(selectedLayout).then(() => navigate("/"));
   }
 
   return (
