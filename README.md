@@ -1,12 +1,15 @@
 # Split Keyboard
 
-A PWA for note taking that makes use of a custom onscreen keyboard so that they keyboard can be split in half. This PWA is designed for landscape mobile only in fact I wrote css that prevents rotation.
+A PWA for note taking that uses a custom onscreen split keyboard. This PWA is designed for landscape mobile only in fact I wrote css that prevents rotation. 
 
 ## Key Features
 
-- support for multiple input buffers
-- customizable keyboards
-- vim like commands
+- Support for multiple input buffers
+- Customizable keyboards
+- Command mode
+- Custom commands
+- Custom keyboard actions
+
 
 ## My Role
 
@@ -17,7 +20,7 @@ A PWA for note taking that makes use of a custom onscreen keyboard so that they 
 - React
 - TypeScript
 - Vite
-- vite-plugin-pwa
+- Vite-plugin-pwa
 - Dexie
 - React Router
 - Zustand
@@ -25,17 +28,16 @@ A PWA for note taking that makes use of a custom onscreen keyboard so that they 
 ## Demo
 
 - Use your phone https://split-keyboard.zian.co.za
-- check the [source code]()
 
 ## Purpose
 
-I built this the project because I was curious as to whether a split digital keyboard would be useful. I first looked to see if there was a way that I could do it without coding, saw it was possible but not on my iphone so I decided to create a UI mock and then I ended up creating the thing.
+I built this project because I was curious as to whether a split digital keyboard would be useful. I first looked to see if there was a way that I could do it without coding, saw it was possible but not on my iphone so I decided to create a UI mock and then that turned into a proof of concept which then turned into a demo and eventually it ended up being this highly customizable offline pwa.
 
 ## My Brag of the Project
 
-I wanted to make it customizable as much as possible so most UI is generated based on data allowing people to customize their keyboard to their heart's content be that a key that types the phrase: "I love Linux" or a key that deletes 200 characters.
+I wanted to make it as customizable as possible so most UI elements are generated based on data allowing people to customize their keyboard to their heart's content be that a key that types the phrase: "I love Linux" or a key that deletes 200 characters.
 
 ## Lessons Learned
 
-- Don't ever start with javascript again
-- I could have fun creating something with my sibling, frantically trying to fix the bugs they kept finding in real time using a live server with hot reload.
+- Don't ever start with JavaScript again
+- I could have fun creating something with my sibling, frantically trying to fix the bugs as they kept finding them in real time using a live server with hot reload.
